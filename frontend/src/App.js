@@ -1,30 +1,25 @@
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Navbar, Container, Nav } from "react-bootstrap";
 
 import { ROUTES } from "./constants";
 import { PrivateSet } from "./views";
+import NavigationBar from "./components/NavigationBar";
+import Layout from "./containers/Layout";
 
-function App() {
-  return (
-    <Router>
-      <Navbar bg="dark" variant="dark">
-        <Container>
-          <Navbar.Brand href="/">Vocab Memo</Navbar.Brand>
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="/private-set">My vocaburaly sets</Nav.Link>
-            </Nav>
-            <Nav>
-              <Navbar.Text>Username</Navbar.Text>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-      <Switch>
-        <Route path={ROUTES.PRIVATE_SET} component={PrivateSet} />
-      </Switch>
-    </Router>
-  );
-}
+const Home = () => <div>Home</div>;
+
+const App = () => (
+  <React.Fragment>
+    <NavigationBar />
+    <Layout>
+      <Router>
+        <Switch>
+          <Route exact path={ROUTES.HOME} component={Home} />
+          <Route path={ROUTES.PRIVATE_SET} component={PrivateSet} />
+        </Switch>
+      </Router>
+    </Layout>
+  </React.Fragment>
+);
 
 export default App;

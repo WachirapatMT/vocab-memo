@@ -10,12 +10,13 @@ const Title = styled.span`
   font-size: 2rem;
 `;
 
-const PrivateSet = () => (
-  <StyledDiv>
-    <p class="font-weight-bold">My vocaburaly sets</p>
-    <p class="font-weight-bold">Bold text.</p>
+const Library = () => (
+  <div>
+    <div className="py-5">
+      <h1 className="fw-bold">My vocaburaly sets</h1>
+    </div>
     <WordSet />
-  </StyledDiv>
+  </div>
 );
 
-export default PrivateSet;
+export default Library;

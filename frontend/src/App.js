@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { ROUTES } from "./constants";
-import { PrivateSet } from "./views";
+import { Library } from "./views";
 import NavigationBar from "./components/NavigationBar";
 import Layout from "./containers/Layout";
 
@@ -15,7 +15,7 @@ const App = () => (
       <Router>
         <Switch>
           <Route exact path={ROUTES.HOME} component={Home} />
-          <Route path={ROUTES.PRIVATE_SET} component={PrivateSet} />
+          <Route path={ROUTES.LIBRARY} component={Library} />
         </Switch>
       </Router>
     </Layout>

@@ -1,4 +1,5 @@
 export const ROUTES = {
-  'HOME': '/',
-  'LIBRARY': '/library',
-}
+  HOME: "/",
+  LIBRARY: "/library",
+  VOCAB: "/:id",
+};

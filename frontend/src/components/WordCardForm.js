@@ -16,15 +16,23 @@ const StyledDiv = styled.div`
 `;
 
 const StyledButton = styled.button`
-  color: gray;
+  position: relative;
+  top: -2px;
+  padding: 0px;
+  margin: 0px;
   border: none;
+  background-color: transparent;
+  color: gray;
+  &:hover {
+    color: green;
+  }
 `;
 
 const StyledIcon = styled.div`
   display: inline;
   color: gray;
   &:hover {
-    color: black;
+    color: red;
   }
 `;
 
@@ -32,8 +40,9 @@ const WordCardForm = ({ setVisible }) => {
   const [word, setWord] = useState("");
   const [definition, setDefinition] = useState("");
 
-  const handleSubmit = () => {
-    console.log(definition, word);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(word, definition);
   };
 
   const handleCancel = () => {
@@ -45,7 +54,7 @@ const WordCardForm = ({ setVisible }) => {
   return (
     <StyledDiv>
       <Container>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Row>
             <Col xs={3}>
               <Form.Control
@@ -68,9 +77,9 @@ const WordCardForm = ({ setVisible }) => {
               />
             </Col>
             <Col xs={1} className="d-flex justify-content-end">
-              <StyledIcon onClick={handleSubmit}>
+              <StyledButton>
                 <CheckLg className="ms-2" />
-              </StyledIcon>
+              </StyledButton>
               <StyledIcon onClick={handleCancel}>
                 <XLg className="ms-2" />
               </StyledIcon>

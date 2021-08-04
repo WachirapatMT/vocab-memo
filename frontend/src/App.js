@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
 import { ROUTES } from "./constants";
-import { Library, Vocab } from "./views";
+import { Library, Vocaburaly } from "./views";
 import NavigationBar from "./components/NavigationBar";
 
 const Home = () => <div>Home</div>;
@@ -16,7 +16,7 @@ const App = () => (
         <Switch>
           <Route exact path={ROUTES.HOME} component={Home} />
           <Route path={ROUTES.LIBRARY} component={Library} />
-          <Route path={ROUTES.VOCAB} component={Vocab} />
+          <Route path={ROUTES.VOCABURALY} component={Vocaburaly} />
         </Switch>
       </Router>
     </Container>

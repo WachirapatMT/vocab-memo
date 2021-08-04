@@ -7,12 +7,12 @@ import { Pencil, Trash } from "react-bootstrap-icons";
 const StyledDiv = styled.div`
   display: flex;
   align-items: center;
-  box-shadow: 0px 2px 7px #bbbbbb;
+  box-shadow: 0px 1px 4px #bbbbbb;
   width: 100%;
   padding: 1.2rem 1rem 0.5rem 1rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
   &:hover {
-    box-shadow: 0px 2px 7px #999999;
+    box-shadow: 0px 1px 6px #999999;
   }
 `;
 

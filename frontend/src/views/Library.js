@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { PlusLg } from "react-bootstrap-icons";
 
 import WordSet from "../components/WordSet";
+import WordSetFormModal from "../components/WordSetFormModal";
 
 const wordSetList_ = [
   { id: 1, title: "test1", description: "description1", wordCount: 1 },
@@ -26,6 +27,7 @@ const StyledDiv = styled.div`
 
 const Library = () => {
   const [wordSetList, setWordSetList] = useState(wordSetList_);
+  const [show, setShow] = useState(false);
 
   return (
     <div>
@@ -41,9 +43,10 @@ const Library = () => {
           wordCount={wordCount}
         />
       ))}
-      <StyledDiv>
+      <StyledDiv onClick={() => setShow(true)}>
         <PlusLg />
       </StyledDiv>
+      <WordSetFormModal show={show} handleClose={() => setShow(false)} />
     </div>
   );
 };

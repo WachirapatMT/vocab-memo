@@ -34,10 +34,10 @@ const WordCard = ({ id: termId, term, definition }) => {
     <StyledDiv onClick={handleClick}>
       <Container>
         <Row>
-          <Col xs={2}>
+          <Col xs={3}>
             <span className="fw-bold">{term}</span>
           </Col>
-          <Col className="border-start ps-4">{definition}</Col>
+          <Col className="border-start px-4">{definition}</Col>
           <Col xs={1} className="d-flex justify-content-end">
             <StyledIcon>
               <Pencil className="ms-2" />

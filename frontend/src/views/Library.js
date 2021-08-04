@@ -29,6 +29,13 @@ const Library = () => {
   const [wordSetList, setWordSetList] = useState(wordSetList_);
   const [show, setShow] = useState(false);
 
+  const addWordSet = (title, description) => {
+    setWordSetList([
+      ...wordSetList,
+      { id: 4, title, description, wordCount: 0 },
+    ]);
+  };
+
   return (
     <div>
       <div className="py-5">

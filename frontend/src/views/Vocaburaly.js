@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import styled from "styled-components";
 
 import WordCard from "../components/WordCard";
+import WordCardForm from "../components/WordCardForm";
 
 const vocaburalyList_ = [
   { id: 1, term: "eye", definition: "ตา" },
@@ -29,6 +30,7 @@ const Vocaburaly = () => {
   const { id } = useParams();
 
   const [vocaburalyList, setVocaburalyList] = useState(vocaburalyList_);
+  const [showWordCardForm, setShowWordCardForm] = useState(false);
 
   return (
     <div>
@@ -38,7 +40,8 @@ const Vocaburaly = () => {
       {vocaburalyList.map(({ id, term, definition }) => (
         <WordCard key={id} id={id} term={term} definition={definition} />
       ))}
-      <StyledDiv>
+      {showWordCardForm && <WordCardForm setVisible={setShowWordCardForm} />}
+      <StyledDiv onClick={() => setShowWordCardForm(true)}>
         <PlusLg />
       </StyledDiv>
     </div>

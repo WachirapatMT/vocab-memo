@@ -16,27 +16,27 @@ db.wordset.insertMany([
     title: "TCAS",
     description: "Prepare for TCAS",
     vocaburaly: [
-      { term: "eye", definition: "ตา" },
-      { term: "ear", definition: "หู" },
-      { term: "nose", definition: "จมูก" },
+      { _id: ObjectId(), term: "eye", definition: "ตา" },
+      { _id: ObjectId(), term: "ear", definition: "หู" },
+      { _id: ObjectId(), term: "nose", definition: "จมูก" },
     ],
   },
   {
     title: "CUTEP",
     description: "Prepare for CUTEP",
     vocaburaly: [
-      { term: "insolent", definition: "อวดดี" },
-      { term: "abhor", definition: "เกลียด" },
-      { term: "imitate", definition: "เลียนแบบ" },
+      { _id: ObjectId(), term: "insolent", definition: "อวดดี" },
+      { _id: ObjectId(), term: "abhor", definition: "เกลียด" },
+      { _id: ObjectId(), term: "imitate", definition: "เลียนแบบ" },
     ],
   },
   {
     title: "IELTS",
     description: "Prepare for IELTS",
     vocaburaly: [
-      { term: "inundate", definition: "น้ำท่วม" },
-      { term: "mawkish", definition: "จืดชืด" },
-      { term: "despot", definition: "ทรราช" },
+      { _id: ObjectId(), term: "inundate", definition: "น้ำท่วม" },
+      { _id: ObjectId(), term: "mawkish", definition: "จืดชืด" },
+      { _id: ObjectId(), term: "despot", definition: "ทรราช" },
     ],
   },
 ]);

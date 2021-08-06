@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 
-// const controller = require("./controllers");
+const controller = require("./controllers");
 
 const app = express();
 app.use(cors());
@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
 });
 
 // word-set endpoint
-// app.get("/word-set", controller.WordSet.getWordSets);
+app.get("/word-set", controller.WordSet.getWordSets);
 
 const PORT = 3001;
 app.listen(PORT, () => {

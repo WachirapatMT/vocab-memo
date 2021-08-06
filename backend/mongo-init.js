@@ -1,15 +1,15 @@
 db = db.getSiblingDB("vocabmemo");
 
-// db.createUser({
-//   user: "test-user",
-//   pwd: "test-password",
-//   roles: [
-//     {
-//       role: "root",
-//       db: "test-database",
-//     },
-//   ],
-// });
+db.createUser({
+  user: "user",
+  pwd: "password",
+  roles: [
+    {
+      role: "readWrite",
+      db: "vocabmemo",
+    },
+  ],
+});
 
 db.wordset.insertMany([
   {

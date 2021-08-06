@@ -7,7 +7,7 @@ services:
       - "3001:3001"
     container_name: api
     volumes:
-      - ./index.js:/usr/src/app/index.js
+      - ./:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
       - mongodb
@@ -21,4 +21,4 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-      - ./mongo-docker-volumes/:/data/db
+      # - ./mongo-docker-volumes/:/data/db

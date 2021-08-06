@@ -16,7 +16,7 @@ async function getWordSetById(req, res) {
     .collection(COLLECTION)
     .find({ _id: new ObjectId(id) })
     .toArray();
-  res.send(result);
+  res.send(result[0]);
 }
 
 async function createWordSet(req, res) {

@@ -21,7 +21,6 @@ const MongoConnection = function () {
 
   async function getConnection() {
     if (db) {
-      console.log("connection existed");
       return db;
     } else {
       return init();

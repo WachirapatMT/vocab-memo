@@ -4,8 +4,8 @@ import { Modal, Button, Form } from "react-bootstrap";
 const WordSetFormModal = ({
   mode,
   show,
-  title: defaultTitle = "",
-  description: defaultDescription = "",
+  defaultTitle = "",
+  defaultDescription = "",
   handleSubmit,
   handleClose,
 }) => {
@@ -16,8 +16,7 @@ const WordSetFormModal = ({
   const handleFormSubmit = (e) => {
     e.preventDefault();
     handleClose();
-    console.log(title, description, defaultTitle, defaultDescription);
-    handleSubmit({ title, description });
+    handleSubmit(title, description);
     setTitle(defaultTitle);
     setDescription(defaultDescription);
   };

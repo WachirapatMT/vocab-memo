@@ -39,7 +39,7 @@ const StyledIcon = styled.div`
 const WordCardForm = ({
   defaultTerm = "",
   defaultDefinition = "",
-  setVisible,
+  handleClose,
   handleSubmit,
 }) => {
   const [term, setTerm] = useState(defaultTerm);
@@ -48,13 +48,13 @@ const WordCardForm = ({
   const handleSubmitForm = (e) => {
     e.preventDefault();
     handleSubmit(term, definition);
-    setVisible(false);
+    handleClose();
     setTerm(defaultTerm);
     setDefinition(defaultDefinition);
   };
 
   const handleCancel = () => {
-    setVisible(false);
+    handleClose();
     setTerm(defaultTerm);
     setDefinition(defaultDefinition);
   };

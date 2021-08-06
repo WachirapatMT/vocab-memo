@@ -1,8 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Container, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { Pencil, Trash } from "react-bootstrap-icons";
+
+import { FORM_MODE } from "../constants";
+import WordSetFormModal from "./WordSetFormModal";
 
 const StyledDiv = styled.div`
   display: flex;
@@ -33,6 +36,7 @@ const WordSet = ({
   deleteWordSet,
 }) => {
   const [id] = useState(wordSetId);
+  const [isOnEdit, setIsOnEdit] = useState(false);
   const history = useHistory();
 
   const handleClick = () => {
@@ -41,7 +45,7 @@ const WordSet = ({
 
   const handleEdit = (e) => {
     e.stopPropagation();
-    editWordSet({ id, title, description });
+    setIsOnEdit(true);
   };
 
   const handleDelete = (e) => {
@@ -50,29 +54,44 @@ const WordSet = ({
   };
 
   return (
-    <StyledDiv onClick={handleClick}>
-      <Container>
-        <Row className="justify-content-md-center">
-          <div className="d-flex justify-content-between">
-            <span className="fs-4 fw-bold">{title}</span>
-            <div>
-              <StyledIcon onClick={handleEdit}>
-                <Pencil className="ms-2" />
-              </StyledIcon>
-              <StyledIcon onClick={handleDelete}>
-                <Trash className="ms-2" />
-              </StyledIcon>
-            </div>
-          </div>
-        </Row>
-        <Row>
-          <div className="d-flex justify-content-between">
-            <p className="text-black-50">{description}</p>
-            <p className="text-black-50">{wordCount} words</p>
-          </div>
-        </Row>
-      </Container>
-    </StyledDiv>
+    <React.Fragment>
+      {isOnEdit ? (
+        <WordSetFormModal
+          mode={FORM_MODE.EDIT}
+          show={isOnEdit}
+          defaultTitle={title}
+          defaultDescription={description}
+          handleSubmit={(title, description) =>
+            editWordSet(id, title, description)
+          }
+          handleClose={() => setIsOnEdit(false)}
+        />
+      ) : (
+        <StyledDiv onClick={handleClick}>
+          <Container>
+            <Row className="justify-content-md-center">
+              <div className="d-flex justify-content-between">
+                <span className="fs-4 fw-bold">{title}</span>
+                <div>
+                  <StyledIcon onClick={handleEdit}>
+                    <Pencil className="ms-2" />
+                  </StyledIcon>
+                  <StyledIcon onClick={handleDelete}>
+                    <Trash className="ms-2" />
+                  </StyledIcon>
+                </div>
+              </div>
+            </Row>
+            <Row>
+              <div className="d-flex justify-content-between">
+                <p className="text-black-50">{description}</p>
+                <p className="text-black-50">{wordCount} words</p>
+              </div>
+            </Row>
+          </Container>
+        </StyledDiv>
+      )}
+    </React.Fragment>
   );
 };
 

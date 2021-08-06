@@ -98,7 +98,7 @@ const Vocaburaly = () => {
       ))}
       {showWordCardForm && (
         <WordCardForm
-          setVisible={setShowWordCardForm}
+          handleClose={() => setShowWordCardForm(false)}
           handleSubmit={addVocaburaly}
         />
       )}

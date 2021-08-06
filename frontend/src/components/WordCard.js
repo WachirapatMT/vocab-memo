@@ -55,7 +55,7 @@ const WordCard = ({
         <WordCardForm
           defaultTerm={term}
           defaultDefinition={definition}
-          setVisible={setIsOnEdit}
+          handleClose={() => setIsOnEdit(false)}
           handleSubmit={(term, definition) =>
             editVocaburaly(id, term, definition)
           }

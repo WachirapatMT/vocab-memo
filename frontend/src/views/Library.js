@@ -24,11 +24,6 @@ const StyledDiv = styled.div`
 
 const Library = () => {
   const [showCreateFormModal, setShowCreateFormModal] = useState(false);
-  const [showEditFormModal, setShowEditFormModal] = useState(false);
-
-  const [editWordSetId, setEditWordSetId] = useState("");
-  const [editTitle, setEditTitle] = useState("");
-  const [editDescription, setEditDescription] = useState("");
 
   const { data: wordSetList, mutate } = useSWR(
     "http://localhost:3001/word-set",
@@ -38,42 +33,32 @@ const Library = () => {
     },
   );
 
-  const addWordSet = async ({ title, description }) => {
+  const addWordSet = async (title, description) => {
     mutate([...wordSetList, { title, description, vocaburaly: [] }]);
     await axios.post("http://localhost:3001/word-set", { title, description });
     mutate();
   };
 
-  const editWordSet = async ({ title, description }) => {
+  const editWordSet = async (id, title, description) => {
     mutate([
-      ...wordSetList.filter((wordSet) => wordSet._id !== editWordSetId),
+      ...wordSetList.filter((wordSet) => wordSet._id !== id),
       {
-        ...wordSetList.find((wordSet) => wordSet._id === editWordSetId),
+        ...wordSetList.find((wordSet) => wordSet._id === id),
         title,
         description,
       },
     ]);
-    await axios.patch(`http://localhost:3001/word-set/${editWordSetId}`, {
+    await axios.patch(`http://localhost:3001/word-set/${id}`, {
       title,
       description,
     });
     mutate();
-    // setEditWordSetId();
-    // setEditTitle(title);
-    // setEditDescription("");
   };
 
   const deleteWordSet = async (id) => {
     mutate(wordSetList.filter((wordSet) => wordSet._id !== id));
     await axios.delete(`http://localhost:3001/word-set/${id}`);
     mutate();
-  };
-
-  const handleEdit = ({ id, title, description }) => {
-    setEditWordSetId(id);
-    setEditTitle(title);
-    setEditDescription(description);
-    setShowEditFormModal(true);
   };
 
   return (
@@ -88,7 +73,7 @@ const Library = () => {
           title={title}
           description={description}
           wordCount={vocaburaly.length}
-          editWordSet={handleEdit}
+          editWordSet={editWordSet}
           deleteWordSet={deleteWordSet}
         />
       ))}
@@ -100,14 +85,6 @@ const Library = () => {
         show={showCreateFormModal}
         handleSubmit={addWordSet}
         handleClose={() => setShowCreateFormModal(false)}
-      />
-      <WordSetFormModal
-        mode={FORM_MODE.EDIT}
-        show={showEditFormModal}
-        title={editTitle}
-        description={editDescription}
-        handleSubmit={editWordSet}
-        handleClose={() => setShowEditFormModal(false)}
       />
     </div>
   );

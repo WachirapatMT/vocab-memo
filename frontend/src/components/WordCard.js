@@ -23,11 +23,16 @@ const StyledIcon = styled.div`
   }
 `;
 
-const WordCard = ({ id: termId, term, definition }) => {
-  const [id] = useState(termId);
+const WordCard = ({ id: vocaburalyId, term, definition, deleteVocaburaly }) => {
+  const [id] = useState(vocaburalyId);
 
   const handleClick = () => {
     console.log(id);
+  };
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    deleteVocaburaly(id);
   };
 
   return (
@@ -42,7 +47,7 @@ const WordCard = ({ id: termId, term, definition }) => {
             <StyledIcon>
               <Pencil className="ms-2" />
             </StyledIcon>
-            <StyledIcon>
+            <StyledIcon onClick={handleDelete}>
               <Trash className="ms-2" />
             </StyledIcon>
           </Col>

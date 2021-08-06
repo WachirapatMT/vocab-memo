@@ -36,18 +36,21 @@ const StyledIcon = styled.div`
   }
 `;
 
-const WordCardForm = ({ setVisible }) => {
-  const [word, setWord] = useState("");
+const WordCardForm = ({ setVisible, addVocaburaly }) => {
+  const [term, setTerm] = useState("");
   const [definition, setDefinition] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(word, definition);
+    addVocaburaly(term, definition);
+    setVisible(false);
+    setTerm("");
+    setDefinition("");
   };
 
   const handleCancel = () => {
     setVisible(false);
-    setWord("");
+    setTerm("");
     setDefinition("");
   };
 
@@ -62,8 +65,8 @@ const WordCardForm = ({ setVisible }) => {
                 size="sm"
                 type="text"
                 placeholder="Enter the word"
-                value={word}
-                onChange={(e) => setWord(e.target.value)}
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
               />
             </Col>
             <Col className="border-start px-4">

@@ -32,21 +32,58 @@ const Vocaburaly = () => {
   const { id } = useParams();
   const [showWordCardForm, setShowWordCardForm] = useState(false);
 
-  const { data: vocaburalyList } = useSWR(
+  const { data: wordSet, mutate } = useSWR(
     `http://localhost:3001/word-set/${id}`,
-    (url) => axios.get(url),
+    async (url) => {
+      const res = await axios.get(url);
+      return res?.data ?? [];
+    },
   );
+
+  const addVocaburaly = async (term, definition) => {
+    mutate({
+      ...wordSet,
+      vocaburaly: [...wordSet.vocaburaly, { term, definition }],
+    });
+    await axios.post(`http://localhost:3001/word-set/${id}/vocaburaly`, {
+      term,
+      definition,
+    });
+    mutate();
+  };
+
+  const deleteVocaburaly = async (vocaburalyId) => {
+    mutate({
+      ...wordSet,
+      vocaburaly: wordSet.vocaburaly.filter(({ id }) => id !== vocaburalyId),
+    });
+    await axios.delete(
+      `http://localhost:3001/word-set/${id}/vocaburaly/${vocaburalyId}`,
+    );
+    mutate();
+  };
 
   return (
     <div>
       <div className="pt-5 pb-4">
-        <h1 className="fw-bold">{vocaburalyList?.data?.title}</h1>
-        <p className="text-black-50">{vocaburalyList?.data?.description}</p>
+        <h1 className="fw-bold">{wordSet?.title}</h1>
+        <p className="text-black-50">{wordSet?.description}</p>
       </div>
-      {vocaburalyList?.data?.vocaburaly?.map(({ id, term, definition }) => (
-        <WordCard key={id} id={id} term={term} definition={definition} />
+      {wordSet?.vocaburaly?.map(({ id, term, definition }) => (
+        <WordCard
+          key={id}
+          id={id}
+          term={term}
+          definition={definition}
+          deleteVocaburaly={deleteVocaburaly}
+        />
       ))}
-      {showWordCardForm && <WordCardForm setVisible={setShowWordCardForm} />}
+      {showWordCardForm && (
+        <WordCardForm
+          setVisible={setShowWordCardForm}
+          addVocaburaly={addVocaburaly}
+        />
+      )}
       <StyledDiv onClick={() => setShowWordCardForm(true)}>
         <PlusLg />
       </StyledDiv>

@@ -54,10 +54,43 @@ async function deleteWordSetById(req, res) {
   res.send(result);
 }
 
+async function addVocaburaly(req, res) {
+  const db = await MongoConnection.getConnection();
+  const { id } = req.params;
+
+  const wordSet = await db
+    .collection(COLLECTION)
+    .find({ _id: new ObjectId(id) })
+    .toArray();
+  const length = wordSet[0].vocaburaly.length;
+
+  const result = await db
+    .collection(COLLECTION)
+    .updateOne(
+      { _id: new ObjectId(id) },
+      { $push: { vocaburaly: { id: (length + 1).toString(), ...req.body } } },
+    );
+  res.send(result);
+}
+
+async function deleteVocaburaly(req, res) {
+  const db = await MongoConnection.getConnection();
+  const { id, vocabId } = req.params;
+  const result = await db
+    .collection(COLLECTION)
+    .updateOne(
+      { _id: new ObjectId(id) },
+      { $pull: { vocaburaly: { id: vocabId } } },
+    );
+  res.send(result);
+}
+
 module.exports = {
   getWordSets,
   getWordSetById,
   createWordSet,
   updateWordSetById,
   deleteWordSetById,
+  addVocaburaly,
+  deleteVocaburaly,
 };

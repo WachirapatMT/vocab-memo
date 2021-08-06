@@ -19,6 +19,12 @@ app.post("/word-set", controller.WordSet.createWordSet);
 app.patch("/word-set/:id", controller.WordSet.updateWordSetById);
 app.delete("/word-set/:id", controller.WordSet.deleteWordSetById);
 
+app.post("/word-set/:id/vocaburaly", controller.WordSet.addVocaburaly);
+app.delete(
+  "/word-set/:id/vocaburaly/:vocabId",
+  controller.WordSet.deleteVocaburaly,
+);
+
 const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -30,36 +30,49 @@ const StyledDiv = styled.div`
 const Library = () => {
   const [show, setShow] = useState(false);
 
-  const { data: wordSetList } = useSWR(
+  const { data: wordSetList, mutate } = useSWR(
     "http://localhost:3001/word-set",
-    (url) => axios.get(url),
+    async (url) => {
+      const res = await axios.get(url);
+      return res?.data ?? [];
+    },
   );
 
-  // const addWordSet = (title, description) => {
-  //   setWordSetList([
-  //     ...wordSetList,
-  //     { id: 4, title, description, wordCount: 0 },
-  //   ]);
-  // };
+  const addWordSet = async (title, description) => {
+    mutate([...wordSetList, { title, description, vocaburaly: [] }]);
+    await axios.post("http://localhost:3001/word-set", { title, description });
+    mutate();
+  };
+
+  const deleteWordSet = async (id) => {
+    mutate(wordSetList.filter((wordSet) => wordSet._id !== id));
+    await axios.delete(`http://localhost:3001/word-set/${id}`);
+    mutate();
+  };
 
   return (
     <div>
       <div className="py-5">
         <h1 className="fw-bold">My vocaburaly sets</h1>
       </div>
-      {wordSetList?.data?.map(({ _id, title, description, vocaburaly }) => (
+      {wordSetList?.map(({ _id, title, description, vocaburaly }) => (
         <WordSet
           key={_id}
           id={_id}
           title={title}
           description={description}
           wordCount={vocaburaly.length}
+          deleteWordSet={deleteWordSet}
         />
       ))}
       <StyledDiv onClick={() => setShow(true)}>
         <PlusLg />
       </StyledDiv>
-      <WordSetFormModal show={show} handleClose={() => setShow(false)} />
+      <WordSetFormModal
+        show={show}
+        addWordSet={addWordSet}
+        handleClose={() => setShow(false)}
+      />
     </div>
   );
 };

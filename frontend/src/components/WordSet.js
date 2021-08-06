@@ -24,13 +24,23 @@ const StyledIcon = styled.div`
   }
 `;
 
-const WordSet = ({ id: wordSetId, title, description, wordCount }) => {
+const WordSet = ({
+  id: wordSetId,
+  title,
+  description,
+  wordCount,
+  deleteWordSet,
+}) => {
   const [id] = useState(wordSetId);
   const history = useHistory();
 
   const handleClick = () => {
-    console.log(id);
     history.push(`/${id}`);
+  };
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    deleteWordSet(id);
   };
 
   return (
@@ -43,7 +53,7 @@ const WordSet = ({ id: wordSetId, title, description, wordCount }) => {
               <StyledIcon>
                 <Pencil className="ms-2" />
               </StyledIcon>
-              <StyledIcon>
+              <StyledIcon onClick={handleDelete}>
                 <Trash className="ms-2" />
               </StyledIcon>
             </div>

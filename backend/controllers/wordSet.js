@@ -73,14 +73,34 @@ async function addVocaburaly(req, res) {
   res.send(result);
 }
 
+async function updateVocaburaly(req, res) {
+  const db = await MongoConnection.getConnection();
+  const { id, vocaburalyId } = req.params;
+  if (req.body) {
+    Object.keys(req.body).map((key) => {
+      req.body[`vocaburaly.$.${key}`] = req.body[key];
+      delete req.body[key];
+    });
+    const result = await db
+      .collection(COLLECTION)
+      .updateOne(
+        { _id: new ObjectId(id), "vocaburaly.id": vocaburalyId },
+        { $set: req.body },
+      );
+    res.send(result);
+  } else {
+    throw Error("No request body");
+  }
+}
+
 async function deleteVocaburaly(req, res) {
   const db = await MongoConnection.getConnection();
-  const { id, vocabId } = req.params;
+  const { id, vocaburalyId } = req.params;
   const result = await db
     .collection(COLLECTION)
     .updateOne(
       { _id: new ObjectId(id) },
-      { $pull: { vocaburaly: { id: vocabId } } },
+      { $pull: { vocaburaly: { id: vocaburalyId } } },
     );
   res.send(result);
 }
@@ -92,5 +112,6 @@ module.exports = {
   updateWordSetById,
   deleteWordSetById,
   addVocaburaly,
+  updateVocaburaly,
   deleteVocaburaly,
 };

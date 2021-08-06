@@ -1,7 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import styled from "styled-components";
 import { Pencil, Trash } from "react-bootstrap-icons";
+
+import WordCardForm from "./WordCardForm";
 
 const StyledDiv = styled.div`
   display: flex;
@@ -23,11 +25,23 @@ const StyledIcon = styled.div`
   }
 `;
 
-const WordCard = ({ id: vocaburalyId, term, definition, deleteVocaburaly }) => {
+const WordCard = ({
+  id: vocaburalyId,
+  term,
+  definition,
+  editVocaburaly,
+  deleteVocaburaly,
+}) => {
   const [id] = useState(vocaburalyId);
+  const [isOnEdit, setIsOnEdit] = useState(false);
 
   const handleClick = () => {
     console.log(id);
+  };
+
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    setIsOnEdit(true);
   };
 
   const handleDelete = (e) => {
@@ -36,24 +50,37 @@ const WordCard = ({ id: vocaburalyId, term, definition, deleteVocaburaly }) => {
   };
 
   return (
-    <StyledDiv onClick={handleClick}>
-      <Container>
-        <Row>
-          <Col xs={3}>
-            <span className="fw-bold">{term}</span>
-          </Col>
-          <Col className="border-start px-4">{definition}</Col>
-          <Col xs={1} className="d-flex justify-content-end">
-            <StyledIcon>
-              <Pencil className="ms-2" />
-            </StyledIcon>
-            <StyledIcon onClick={handleDelete}>
-              <Trash className="ms-2" />
-            </StyledIcon>
-          </Col>
-        </Row>
-      </Container>
-    </StyledDiv>
+    <React.Fragment>
+      {isOnEdit ? (
+        <WordCardForm
+          defaultTerm={term}
+          defaultDefinition={definition}
+          setVisible={setIsOnEdit}
+          handleSubmit={(term, definition) =>
+            editVocaburaly(id, term, definition)
+          }
+        />
+      ) : (
+        <StyledDiv onClick={handleClick}>
+          <Container>
+            <Row>
+              <Col xs={3}>
+                <span className="fw-bold">{term}</span>
+              </Col>
+              <Col className="border-start px-4">{definition}</Col>
+              <Col xs={1} className="d-flex justify-content-end">
+                <StyledIcon onClick={handleEdit}>
+                  <Pencil className="ms-2" />
+                </StyledIcon>
+                <StyledIcon onClick={handleDelete}>
+                  <Trash className="ms-2" />
+                </StyledIcon>
+              </Col>
+            </Row>
+          </Container>
+        </StyledDiv>
+      )}
+    </React.Fragment>
   );
 };
 

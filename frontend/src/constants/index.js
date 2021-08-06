@@ -6,5 +6,5 @@ export const ROUTES = {
 
 export const FORM_MODE = {
   CREATE: "Create",
-  EDIT: "EDIT",
+  EDIT: "Edit",
 };

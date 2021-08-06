@@ -8,12 +8,6 @@ import axios from "axios";
 import WordCard from "../components/WordCard";
 import WordCardForm from "../components/WordCardForm";
 
-// const vocaburalyList_ = [
-//   { id: 1, term: "eye", definition: "ตา" },
-//   { id: 2, term: "ear", definition: "หู" },
-//   { id: 3, term: "nose", definition: "จมูก" },
-// ];
-
 const StyledDiv = styled.div`
   display: flex;
   justify-content: center;
@@ -52,6 +46,29 @@ const Vocaburaly = () => {
     mutate();
   };
 
+  const editVocaburaly = async (vocaburalyId, term, definition) => {
+    console.log(vocaburalyId, term, definition);
+    mutate({
+      ...wordSet,
+      vocaburaly: [
+        ...wordSet.vocaburaly.filter(({ id }) => id !== vocaburalyId),
+        {
+          ...wordSet.vocaburaly.find(({ id }) => id === vocaburalyId),
+          term,
+          definition,
+        },
+      ],
+    });
+    await axios.patch(
+      `http://localhost:3001/word-set/${id}/vocaburaly/${vocaburalyId}`,
+      {
+        term,
+        definition,
+      },
+    );
+    mutate();
+  };
+
   const deleteVocaburaly = async (vocaburalyId) => {
     mutate({
       ...wordSet,
@@ -75,13 +92,14 @@ const Vocaburaly = () => {
           id={id}
           term={term}
           definition={definition}
+          editVocaburaly={editVocaburaly}
           deleteVocaburaly={deleteVocaburaly}
         />
       ))}
       {showWordCardForm && (
         <WordCardForm
           setVisible={setShowWordCardForm}
-          addVocaburaly={addVocaburaly}
+          handleSubmit={addVocaburaly}
         />
       )}
       <StyledDiv onClick={() => setShowWordCardForm(true)}>

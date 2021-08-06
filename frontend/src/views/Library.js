@@ -8,12 +8,6 @@ import WordSet from "../components/WordSet";
 import WordSetFormModal from "../components/WordSetFormModal";
 import { FORM_MODE } from "../constants";
 
-// const wordSetList_ = [
-//   { id: 1, title: "test1", description: "description1", wordCount: 1 },
-//   { id: 2, title: "test2", description: "description2", wordCount: 2 },
-//   { id: 3, title: "test3", description: "description3", wordCount: 3 },
-// ];
-
 const StyledDiv = styled.div`
   display: flex;
   justify-content: center;
@@ -35,7 +29,6 @@ const Library = () => {
   const [editWordSetId, setEditWordSetId] = useState("");
   const [editTitle, setEditTitle] = useState("");
   const [editDescription, setEditDescription] = useState("");
-  // const editWordSetData = useRef(null);
 
   const { data: wordSetList, mutate } = useSWR(
     "http://localhost:3001/word-set",
@@ -65,9 +58,9 @@ const Library = () => {
       description,
     });
     mutate();
-    setEditWordSetId("");
-    setEditTitle("");
-    setEditDescription("");
+    // setEditWordSetId();
+    // setEditTitle(title);
+    // setEditDescription("");
   };
 
   const deleteWordSet = async (id) => {

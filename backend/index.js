@@ -20,8 +20,12 @@ app.patch("/word-set/:id", controller.WordSet.updateWordSetById);
 app.delete("/word-set/:id", controller.WordSet.deleteWordSetById);
 
 app.post("/word-set/:id/vocaburaly", controller.WordSet.addVocaburaly);
+app.patch(
+  "/word-set/:id/vocaburaly/:vocaburalyId",
+  controller.WordSet.updateVocaburaly,
+);
 app.delete(
-  "/word-set/:id/vocaburaly/:vocabId",
+  "/word-set/:id/vocaburaly/:vocaburalyId",
   controller.WordSet.deleteVocaburaly,
 );
 

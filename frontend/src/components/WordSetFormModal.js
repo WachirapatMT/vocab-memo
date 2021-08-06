@@ -4,25 +4,28 @@ import { Modal, Button, Form } from "react-bootstrap";
 const WordSetFormModal = ({
   mode,
   show,
-  title: defaultTitle,
-  description: defaultDescription,
+  title: defaultTitle = "",
+  description: defaultDescription = "",
   handleSubmit,
   handleClose,
 }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState(defaultTitle);
+  const [description, setDescription] = useState(defaultDescription);
   const formRef = useRef(null);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     handleClose();
+    console.log(title, description, defaultTitle, defaultDescription);
     handleSubmit({ title, description });
+    setTitle(defaultTitle);
+    setDescription(defaultDescription);
   };
 
   const handleCancel = () => {
     handleClose();
-    setTitle(defaultTitle || "");
-    setDescription(defaultDescription || "");
+    setTitle(defaultTitle);
+    setDescription(defaultDescription);
   };
 
   return (
@@ -42,7 +45,7 @@ const WordSetFormModal = ({
               required
               type="text"
               placeholder="Enter the title"
-              defaultValue={defaultTitle || ""}
+              defaultValue={defaultTitle}
               onChange={(e) => setTitle(e.target.value)}
             />
           </Form.Group>
@@ -51,7 +54,7 @@ const WordSetFormModal = ({
             <Form.Control
               as="textarea"
               rows={2}
-              defaultValue={defaultDescription || ""}
+              defaultValue={defaultDescription}
               onChange={(e) => setDescription(e.target.value)}
             />
           </Form.Group>

@@ -36,28 +36,33 @@ const StyledIcon = styled.div`
   }
 `;
 
-const WordCardForm = ({ setVisible, addVocaburaly }) => {
-  const [term, setTerm] = useState("");
-  const [definition, setDefinition] = useState("");
+const WordCardForm = ({
+  defaultTerm = "",
+  defaultDefinition = "",
+  setVisible,
+  handleSubmit,
+}) => {
+  const [term, setTerm] = useState(defaultTerm);
+  const [definition, setDefinition] = useState(defaultDefinition);
 
-  const handleSubmit = (e) => {
+  const handleSubmitForm = (e) => {
     e.preventDefault();
-    addVocaburaly(term, definition);
+    handleSubmit(term, definition);
     setVisible(false);
-    setTerm("");
-    setDefinition("");
+    setTerm(defaultTerm);
+    setDefinition(defaultDefinition);
   };
 
   const handleCancel = () => {
     setVisible(false);
-    setTerm("");
-    setDefinition("");
+    setTerm(defaultTerm);
+    setDefinition(defaultDefinition);
   };
 
   return (
     <StyledDiv>
       <Container>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmitForm}>
           <Row>
             <Col xs={3}>
               <Form.Control
@@ -65,7 +70,7 @@ const WordCardForm = ({ setVisible, addVocaburaly }) => {
                 size="sm"
                 type="text"
                 placeholder="Enter the word"
-                value={term}
+                defaultValue={defaultTerm}
                 onChange={(e) => setTerm(e.target.value)}
               />
             </Col>
@@ -75,7 +80,7 @@ const WordCardForm = ({ setVisible, addVocaburaly }) => {
                 size="sm"
                 type="text"
                 placeholder="Enter the definition"
-                value={definition}
+                defaultValue={defaultDefinition}
                 onChange={(e) => setDefinition(e.target.value)}
               />
             </Col>

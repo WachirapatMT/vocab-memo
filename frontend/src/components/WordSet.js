@@ -29,6 +29,7 @@ const WordSet = ({
   title,
   description,
   wordCount,
+  editWordSet,
   deleteWordSet,
 }) => {
   const [id] = useState(wordSetId);
@@ -36,6 +37,11 @@ const WordSet = ({
 
   const handleClick = () => {
     history.push(`/${id}`);
+  };
+
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    editWordSet({ id, title, description });
   };
 
   const handleDelete = (e) => {
@@ -50,7 +56,7 @@ const WordSet = ({
           <div className="d-flex justify-content-between">
             <span className="fs-4 fw-bold">{title}</span>
             <div>
-              <StyledIcon>
+              <StyledIcon onClick={handleEdit}>
                 <Pencil className="ms-2" />
               </StyledIcon>
               <StyledIcon onClick={handleDelete}>

@@ -14,9 +14,8 @@ async function getWordSetById(req, res) {
   const { id } = req.params;
   const result = await db
     .collection(COLLECTION)
-    .find({ _id: new ObjectId(id) })
-    .toArray();
-  res.send(result[0]);
+    .findOne({ _id: new ObjectId(id) });
+  res.send(result);
 }
 
 async function createWordSet(req, res) {
@@ -60,9 +59,8 @@ async function addVocaburaly(req, res) {
 
   const wordSet = await db
     .collection(COLLECTION)
-    .find({ _id: new ObjectId(id) })
-    .toArray();
-  const length = wordSet[0].vocaburaly.length;
+    .findOne({ _id: new ObjectId(id) });
+  const length = wordSet.vocaburaly.length;
 
   const result = await db
     .collection(COLLECTION)

@@ -40,3 +40,11 @@ db.wordset.insertMany([
     ],
   },
 ]);
+
+// password: password
+// token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJpYXQiOjE2MjgzMjg4ODgsImV4cCI6MTYyODQxNTI4OH0.-VmBTwdjN87zs58WrKuZbAawCqKAstMkQFzZ8AAKuKk
+db.user.insert({
+  username: "user",
+  salt: "$2a$10$BhRPNeULJGfYFFRRZ.wKnO",
+  password: "$2a$10$BhRPNeULJGfYFFRRZ.wKnOlh8YBxflWVgpT/bUZB7TPNNN7.7afiG",
+});

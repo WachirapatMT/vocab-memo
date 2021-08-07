@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
 const WordSetFormModal = ({
@@ -11,7 +11,6 @@ const WordSetFormModal = ({
 }) => {
   const [title, setTitle] = useState(defaultTitle);
   const [description, setDescription] = useState(defaultDescription);
-  const formRef = useRef(null);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -33,11 +32,7 @@ const WordSetFormModal = ({
         <Modal.Title>{mode} word set</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form
-          id="create-word-set-form"
-          ref={formRef}
-          onSubmit={handleFormSubmit}
-        >
+        <Form id="create-word-set-form" onSubmit={handleFormSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Title</Form.Label>
             <Form.Control

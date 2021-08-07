@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
 import { ROUTES } from "./constants";
-import { Library, Vocaburaly } from "./views";
+import { Home, Library, Vocaburaly } from "./views";
 import NavigationBar from "./components/NavigationBar";
 
-const Home = () => <div>Home</div>;
+// const Home = () => <div>Home</div>;
 
 const App = () => (
   <React.Fragment>

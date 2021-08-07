@@ -31,13 +31,11 @@ const WordCard = ({
   definition,
   editVocaburaly,
   deleteVocaburaly,
+  isFormActive,
+  setIsFormActive,
 }) => {
   const [id] = useState(vocaburalyId);
   const [isOnEdit, setIsOnEdit] = useState(false);
-
-  const handleClick = () => {
-    console.log(id);
-  };
 
   const handleEdit = (e) => {
     e.stopPropagation();
@@ -55,13 +53,15 @@ const WordCard = ({
         <WordCardForm
           defaultTerm={term}
           defaultDefinition={definition}
+          isFormActive={isFormActive}
+          setIsFormActive={setIsFormActive}
           handleClose={() => setIsOnEdit(false)}
           handleSubmit={(term, definition) =>
             editVocaburaly(id, term, definition)
           }
         />
       ) : (
-        <StyledDiv onClick={handleClick}>
+        <StyledDiv>
           <Container>
             <Row>
               <Col xs={3}>

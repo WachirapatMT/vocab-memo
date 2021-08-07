@@ -6,6 +6,7 @@ import { Pencil, Trash } from "react-bootstrap-icons";
 
 import { FORM_MODE } from "../constants";
 import WordSetFormModal from "./WordSetFormModal";
+import ConfirmModal from "./ConfirmModal";
 
 const StyledDiv = styled.div`
   display: flex;
@@ -37,6 +38,7 @@ const WordSet = ({
 }) => {
   const [id] = useState(wordSetId);
   const [isOnEdit, setIsOnEdit] = useState(false);
+  const [isOnDelete, setIsOnDelete] = useState(false);
   const history = useHistory();
 
   const handleClick = () => {
@@ -50,7 +52,7 @@ const WordSet = ({
 
   const handleDelete = (e) => {
     e.stopPropagation();
-    deleteWordSet(id);
+    setIsOnDelete(true);
   };
 
   return (
@@ -91,6 +93,14 @@ const WordSet = ({
           </Container>
         </StyledDiv>
       )}
+      <ConfirmModal
+        show={isOnDelete}
+        title="Confirm Deletion"
+        body="Are you sure you want to delete this word set? This action cannot be undone."
+        buttonText="Delete"
+        handleConfirm={() => deleteWordSet(id)}
+        handleCancel={() => setIsOnDelete(false)}
+      />
     </React.Fragment>
   );
 };

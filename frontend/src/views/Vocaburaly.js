@@ -47,7 +47,6 @@ const Vocaburaly = () => {
   };
 
   const editVocaburaly = async (vocaburalyId, term, definition) => {
-    console.log(vocaburalyId, term, definition);
     mutate({
       ...wordSet,
       vocaburaly: [

@@ -10,9 +10,6 @@ const StyledDiv = styled.div`
   width: 100%;
   padding: 0.5rem 1rem 0.5rem 1rem;
   margin-bottom: 0.5rem;
-  &:hover {
-    box-shadow: 0px 0px 3px #999999;
-  }
 `;
 
 const StyledButton = styled.button`

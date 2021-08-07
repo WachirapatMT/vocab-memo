@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 
+const appConfig = require("config").get("appConfig");
+
 const middleware = require("./middlewares/authentication");
 const controller = require("./controllers");
 
@@ -32,7 +34,6 @@ app.delete(
   controller.WordSet.deleteVocaburaly,
 );
 
-const PORT = 3001;
-app.listen(PORT, () => {
+app.listen(appConfig.port, () => {
   console.log(`Server running on port ${PORT}`);
 });

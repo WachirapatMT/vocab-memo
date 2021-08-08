@@ -2,6 +2,8 @@ export const ROUTES = {
   HOME: "/",
   LIBRARY: "/library",
   VOCABURALY: "/:id",
+  FLASH_CARD: "/:id/flash-card",
+  QUIZ: "/:id/quiz",
 };
 
 export const FORM_MODE = {

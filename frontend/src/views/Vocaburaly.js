@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PlusLg } from "react-bootstrap-icons";
-import { useParams } from "react-router";
+import { useParams, useHistory } from "react-router";
 import { useCookies } from "react-cookie";
 import styled from "styled-components";
 import useSWR from "swr";
@@ -44,11 +44,13 @@ const StyledCard = styled.div`
 const Vocaburaly = () => {
   const [token] = useCookies([process.env.REACT_APP_COOKIE_NAME]);
   const { id } = useParams();
+  const history = useHistory();
   const [showWordCardForm, setShowWordCardForm] = useState(false);
 
   const { data: wordSet, mutate } = useSWR(
     `http://localhost:3001/word-set/${id}`,
     async (url) => {
+      console.log(id);
       const res = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${
@@ -137,10 +139,17 @@ const Vocaburaly = () => {
       </div>
       <Row className="mb-5">
         <Col>
-          <StyledCard bg="#20c997">Flash card</StyledCard>
+          <StyledCard
+            bg="#20c997"
+            onClick={() => history.push(`/${id}/flash-card`)}
+          >
+            Flash card
+          </StyledCard>
         </Col>
         <Col>
-          <StyledCard bg="#0dcaf0">Quiz</StyledCard>
+          <StyledCard bg="#0dcaf0" onClick={() => history.push(`/${id}/quiz`)}>
+            Quiz
+          </StyledCard>
         </Col>
       </Row>
       {wordSet?.vocaburaly?.map(({ id, term, definition }) => (

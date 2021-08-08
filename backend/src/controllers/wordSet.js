@@ -34,7 +34,6 @@ async function createWordSet(req, res) {
     res.send(result);
   } else {
     res.status(400).send("Bad request");
-
   }
 }
 
@@ -48,7 +47,6 @@ async function updateWordSetById(req, res) {
     res.send(result);
   } else {
     res.status(400).send("Bad request");
-
   }
 }
 
@@ -97,7 +95,6 @@ async function updateVocaburaly(req, res) {
     res.send(result);
   } else {
     res.status(400).send("Bad request");
-
   }
 }
 

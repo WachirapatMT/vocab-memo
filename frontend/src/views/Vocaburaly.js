@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import styled from "styled-components";
 import useSWR from "swr";
 import axios from "axios";
+import { Row, Col } from "react-bootstrap";
 
 import WordCard from "../components/WordCard";
 import WordCardForm from "../components/WordCardForm";
@@ -20,6 +21,23 @@ const StyledDiv = styled.div`
   margin-bottom: 1.25rem;
   &:hover {
     background-color: #dddddd;
+  }
+`;
+
+const StyledCard = styled.div`
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  box-shadow: 0px 0px 2px #cccccc;
+  background-color: ${(props) => props.bg};
+  border-radius: 10px;
+  &:hover {
+    box-shadow: 0px 0px 4px #aaaaaa;
+    opacity: 0.9;
   }
 `;
 
@@ -117,6 +135,14 @@ const Vocaburaly = () => {
         <h1 className="fw-bold">{wordSet?.title}</h1>
         <p className="text-black-50">{wordSet?.description}</p>
       </div>
+      <Row className="mb-5">
+        <Col>
+          <StyledCard bg="#20c997">Flash card</StyledCard>
+        </Col>
+        <Col>
+          <StyledCard bg="#0dcaf0">Quiz</StyledCard>
+        </Col>
+      </Row>
       {wordSet?.vocaburaly?.map(({ id, term, definition }) => (
         <WordCard
           key={id}

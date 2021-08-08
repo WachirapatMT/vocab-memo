@@ -10,6 +10,6 @@ module.exports = {
   dbConfig: {
     dbName: process.env.DB_NAME || "vocabmemo",
     userCollection: process.env.USER_COLLECTION || "user",
-    wordSetCollection: process.env.WORDSET_COLLECTION || "wordset",
+    wordsetCollection: process.env.WORDSET_COLLECTION || "wordset",
   },
 };

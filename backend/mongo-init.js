@@ -11,6 +11,14 @@ db.createUser({
   ],
 });
 
+// password: password
+// token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJpYXQiOjE2MjgzMjg4ODgsImV4cCI6MTYyODQxNTI4OH0.-VmBTwdjN87zs58WrKuZbAawCqKAstMkQFzZ8AAKuKk
+db.user.insert({
+  username: "user",
+  salt: "$2a$10$BhRPNeULJGfYFFRRZ.wKnO",
+  password: "$2a$10$BhRPNeULJGfYFFRRZ.wKnOlh8YBxflWVgpT/bUZB7TPNNN7.7afiG",
+});
+
 db.wordset.insertMany([
   {
     title: "TCAS",
@@ -20,6 +28,7 @@ db.wordset.insertMany([
       { id: 2, term: "ear", definition: "หู" },
       { id: 3, term: "nose", definition: "จมูก" },
     ],
+    user: "user",
   },
   {
     title: "CUTEP",
@@ -29,6 +38,7 @@ db.wordset.insertMany([
       { id: 2, term: "abhor", definition: "เกลียด" },
       { id: 3, term: "imitate", definition: "เลียนแบบ" },
     ],
+    user: "user",
   },
   {
     title: "IELTS",
@@ -38,13 +48,7 @@ db.wordset.insertMany([
       { id: 2, term: "mawkish", definition: "จืดชืด" },
       { id: 3, term: "despot", definition: "ทรราช" },
     ],
+    user: "user",
   },
 ]);
 
-// password: password
-// token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJpYXQiOjE2MjgzMjg4ODgsImV4cCI6MTYyODQxNTI4OH0.-VmBTwdjN87zs58WrKuZbAawCqKAstMkQFzZ8AAKuKk
-db.user.insert({
-  username: "user",
-  salt: "$2a$10$BhRPNeULJGfYFFRRZ.wKnO",
-  password: "$2a$10$BhRPNeULJGfYFFRRZ.wKnOlh8YBxflWVgpT/bUZB7TPNNN7.7afiG",
-});

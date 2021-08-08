@@ -33,7 +33,8 @@ async function createWordSet(req, res) {
       .insertOne({ title, description, vocaburaly: [], user: username });
     res.send(result);
   } else {
-    throw Error("No request body");
+    res.status(400).send("Bad request");
+
   }
 }
 
@@ -46,7 +47,8 @@ async function updateWordSetById(req, res) {
       .updateOne({ _id: new ObjectId(id) }, { $set: req.body });
     res.send(result);
   } else {
-    throw Error("No request body");
+    res.status(400).send("Bad request");
+
   }
 }
 
@@ -94,7 +96,8 @@ async function updateVocaburaly(req, res) {
       );
     res.send(result);
   } else {
-    throw Error("No request body");
+    res.status(400).send("Bad request");
+
   }
 }
 

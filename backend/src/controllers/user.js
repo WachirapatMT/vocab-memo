@@ -15,7 +15,7 @@ async function createUser(req, res) {
   const { username, password } = req.body;
   let user = await getUser(username);
   if (user) {
-    throw Error("This username already exists");
+    return res.status(400).send("Bad request");
   }
 
   user = {};
@@ -26,7 +26,7 @@ async function createUser(req, res) {
   user.password = await bcrypt.hash(password, salt);
 
   const db = await MongoConnection.getConnection();
-  const result = await db.collection(dbConfig.userCollection).insertOne(user);
+  await db.collection(dbConfig.userCollection).insertOne(user);
   await login(req, res);
 }
 
@@ -34,15 +34,13 @@ async function login(req, res) {
   const { username, password } = req.body;
   const user = await getUser(username);
   if (user) {
-    try {
-      const check = await bcrypt.compare(password, user.password);
-      if (!check) {
-        throw Error("Unauthorized");
-      }
-      res.send(generateToken(username));
-    } catch (err) {
-      throw err;
+    const check = await bcrypt.compare(password, user.password);
+    if (!check) {
+      return res.status(401).send("Unauthorized");
     }
+    res.send(generateToken(username));
+  } else {
+    res.status(401).send("Unauthorized");
   }
 }
 

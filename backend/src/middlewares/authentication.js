@@ -8,7 +8,7 @@ function authenticateUser(req, res, next) {
     const data = jwt.verify(token, authConfig.jwtSecret);
     req.user = data;
   } catch (err) {
-    throw Error("Unauthorized header");
+    res.status(401).send("Unauthorized");
   }
   next();
 }

@@ -27,7 +27,7 @@ async function createUser(req, res) {
 
   const db = await MongoConnection.getConnection();
   const result = await db.collection(dbConfig.userCollection).insertOne(user);
-  res.send(result);
+  await login(req, res);
 }
 
 async function login(req, res) {

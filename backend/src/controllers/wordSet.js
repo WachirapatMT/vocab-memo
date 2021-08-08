@@ -4,30 +4,33 @@ const dbConfig = require("config").get("dbConfig");
 const MongoConnection = require("../datasources/mongodb");
 
 async function getWordSets(req, res) {
+  const { username } = req.user;
   const db = await MongoConnection.getConnection();
   const result = await db
     .collection(dbConfig.wordsetCollection)
-    .find({})
+    .find({ user: username })
     .toArray();
   res.send(result);
 }
 
 async function getWordSetById(req, res) {
+  const { username } = req.user;
   const db = await MongoConnection.getConnection();
   const { id } = req.params;
   const result = await db
     .collection(dbConfig.wordsetCollection)
-    .findOne({ _id: new ObjectId(id) });
+    .findOne({ _id: new ObjectId(id), user: username });
   res.send(result);
 }
 
 async function createWordSet(req, res) {
+  const { username } = req.user;
   const db = await MongoConnection.getConnection();
   if (req.body) {
     const { title, description } = req.body;
     const result = await db
       .collection(dbConfig.wordsetCollection)
-      .insertOne({ title, description, vocaburaly: [] });
+      .insertOne({ title, description, vocaburaly: [], user: username });
     res.send(result);
   } else {
     throw Error("No request body");
@@ -48,11 +51,12 @@ async function updateWordSetById(req, res) {
 }
 
 async function deleteWordSetById(req, res) {
+  const { username } = req.user;
   const db = await MongoConnection.getConnection();
   const { id } = req.params;
   const result = await db
     .collection(dbConfig.wordsetCollection)
-    .deleteOne({ _id: new ObjectId(id) });
+    .deleteOne({ _id: new ObjectId(id), user: username });
   res.send(result);
 }
 

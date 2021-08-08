@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const authConfig = require("config").get("authConfig");
 
 function authenticateUser(req, res, next) {
-  console.log(req.header);
   let token = req.header("Authorization");
   try {
     token = token.split(" ")[1];

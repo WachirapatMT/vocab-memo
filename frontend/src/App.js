@@ -9,16 +9,16 @@ import NavigationBar from "./components/NavigationBar";
 
 const App = () => (
   <CookiesProvider>
-    <NavigationBar />
-    <Container>
-      <Router>
+    <Router>
+      <NavigationBar />
+      <Container>
         <Switch>
           <Route exact path={ROUTES.HOME} component={Home} />
           <Route path={ROUTES.LIBRARY} component={Library} />
           <Route path={ROUTES.VOCABURALY} component={Vocaburaly} />
         </Switch>
-      </Router>
-    </Container>
+      </Container>
+    </Router>
   </CookiesProvider>
 );
 

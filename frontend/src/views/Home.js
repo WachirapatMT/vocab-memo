@@ -6,6 +6,7 @@ import axios from "axios";
 
 import { ROUTES, REDIRECT_CONDITION } from "../constants";
 import useUser from "../utils/useUser";
+import WarningModal from "../components/WarningModal";
 
 const StyledDiv = styled.div`
   background-color: #202020;
@@ -26,7 +27,7 @@ const StyledSpan = styled.span`
 `;
 
 const Home = () => {
-  const { user, mutateUser } = useUser({
+  const { mutateUser } = useUser({
     redirectTo: ROUTES.LIBRARY,
     redirectWhen: REDIRECT_CONDITION.USER_FOUND,
   });
@@ -38,6 +39,7 @@ const Home = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showWarningModal, setShowWarningModal] = useState(false);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -54,6 +56,7 @@ const Home = () => {
         username,
         password,
       });
+      console.log("no error");
       if (data?.token) {
         setCookie(process.env.REACT_APP_COOKIE_NAME, data.token, {
           path: "/",
@@ -62,8 +65,11 @@ const Home = () => {
       }
       mutateUser();
     } catch (err) {
-      console.log(err);
+      setShowWarningModal(true);
       removeCookie(process.env.REACT_APP_COOKIE_NAME, { path: "/" });
+    } finally {
+      setUsername("");
+      setPassword("");
     }
   };
 
@@ -81,54 +87,71 @@ const Home = () => {
       }
       mutateUser();
     } catch (err) {
-      console.log(err);
+      setShowWarningModal(true);
       removeCookie(process.env.REACT_APP_COOKIE_NAME, { path: "/" });
+    } finally {
+      setUsername("");
+      setPassword("");
     }
   };
 
   return (
-    <div className="d-flex justify-content-center">
-      <StyledDiv>
-        <Row className="d-flex justify-content-center my-4 h2">
-          <div className="d-flex justify-content-center">
-            <StyledSpan active={isLogin} onClick={() => setIsLogin(true)}>
-              Login
-            </StyledSpan>
-            <span className="mx-3 text-white-50">|</span>
-            <StyledSpan active={!isLogin} onClick={() => setIsLogin(false)}>
-              SignUp
-            </StyledSpan>
-          </div>
-        </Row>
-        <Row>
-          <Form id="create-word-set-form" onSubmit={handleFormSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label className="fw-bold">Username</Form.Label>
-              <Form.Control
-                required
-                type="text"
-                placeholder="Enter username"
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className="fw-bold">Password</Form.Label>
-              <Form.Control
-                required
-                type="text"
-                placeholder="Enter password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
-            <div className="d-flex justify-content-center my-4">
-              <Button variant="primary" type="submit">
-                {isLogin ? "Log in" : "Sign up"}
-              </Button>
+    <React.Fragment>
+      <div className="d-flex justify-content-center">
+        <StyledDiv>
+          <Row className="d-flex justify-content-center my-4 h2">
+            <div className="d-flex justify-content-center">
+              <StyledSpan active={isLogin} onClick={() => setIsLogin(true)}>
+                Login
+              </StyledSpan>
+              <span className="mx-3 text-white-50">|</span>
+              <StyledSpan active={!isLogin} onClick={() => setIsLogin(false)}>
+                SignUp
+              </StyledSpan>
             </div>
-          </Form>
-        </Row>
-      </StyledDiv>
-    </div>
+          </Row>
+          <Row>
+            <Form id="create-word-set-form" onSubmit={handleFormSubmit}>
+              <Form.Group className="mb-3">
+                <Form.Label className="fw-bold">Username</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Enter username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label className="fw-bold">Password</Form.Label>
+                <Form.Control
+                  required
+                  type="password"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Form.Group>
+              <div className="d-flex justify-content-center my-4">
+                <Button variant="primary" type="submit">
+                  {isLogin ? "Log in" : "Sign up"}
+                </Button>
+              </div>
+            </Form>
+          </Row>
+        </StyledDiv>
+      </div>
+      <WarningModal
+        show={showWarningModal}
+        title={isLogin ? "Login failed" : "Sign up failed"}
+        body={
+          isLogin
+            ? "Email/Password is incorrect"
+            : "This username has already been used"
+        }
+        handleOk={() => setShowWarningModal(false)}
+      />
+    </React.Fragment>
   );
 };
 

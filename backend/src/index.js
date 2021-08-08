@@ -35,5 +35,5 @@ app.delete(
 );
 
 app.listen(appConfig.port, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${appConfig.port}`);
 });

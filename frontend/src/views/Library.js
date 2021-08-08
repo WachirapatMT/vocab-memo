@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { useCookies } from "react-cookie";
 import { PlusLg } from "react-bootstrap-icons";
 import useSWR from "swr";
 import axios from "axios";
@@ -23,19 +24,36 @@ const StyledDiv = styled.div`
 `;
 
 const Library = () => {
+  const [token] = useCookies([process.env.REACT_APP_COOKIE_NAME]);
   const [showCreateFormModal, setShowCreateFormModal] = useState(false);
 
   const { data: wordSetList, mutate } = useSWR(
     "http://localhost:3001/word-set",
     async (url) => {
-      const res = await axios.get(url);
+      const res = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${
+            token[process.env.REACT_APP_COOKIE_NAME] || ""
+          }`,
+        },
+      });
       return res?.data ?? [];
     },
   );
 
   const addWordSet = async (title, description) => {
     mutate([...wordSetList, { title, description, vocaburaly: [] }]);
-    await axios.post("http://localhost:3001/word-set", { title, description });
+    await axios.post(
+      "http://localhost:3001/word-set",
+      { title, description },
+      {
+        headers: {
+          Authorization: `Bearer ${
+            token[process.env.REACT_APP_COOKIE_NAME] || ""
+          }`,
+        },
+      },
+    );
     mutate();
   };
 
@@ -48,16 +66,32 @@ const Library = () => {
         description,
       },
     ]);
-    await axios.patch(`http://localhost:3001/word-set/${id}`, {
-      title,
-      description,
-    });
+    await axios.patch(
+      `http://localhost:3001/word-set/${id}`,
+      {
+        title,
+        description,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${
+            token[process.env.REACT_APP_COOKIE_NAME] || ""
+          }`,
+        },
+      },
+    );
     mutate();
   };
 
   const deleteWordSet = async (id) => {
     mutate(wordSetList.filter((wordSet) => wordSet._id !== id));
-    await axios.delete(`http://localhost:3001/word-set/${id}`);
+    await axios.delete(`http://localhost:3001/word-set/${id}`, {
+      headers: {
+        Authorization: `Bearer ${
+          token[process.env.REACT_APP_COOKIE_NAME] || ""
+        }`,
+      },
+    });
     mutate();
   };
 

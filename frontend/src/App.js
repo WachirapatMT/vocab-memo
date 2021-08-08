@@ -1,15 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import { CookiesProvider } from "react-cookie";
 
 import { ROUTES } from "./constants";
 import { Home, Library, Vocaburaly } from "./views";
 import NavigationBar from "./components/NavigationBar";
 
-// const Home = () => <div>Home</div>;
-
 const App = () => (
-  <React.Fragment>
+  <CookiesProvider>
     <NavigationBar />
     <Container>
       <Router>
@@ -20,7 +19,7 @@ const App = () => (
         </Switch>
       </Router>
     </Container>
-  </React.Fragment>
+  </CookiesProvider>
 );
 
 export default App;

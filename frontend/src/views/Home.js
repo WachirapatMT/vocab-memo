@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { Row, Form, Button } from "react-bootstrap";
+import { useCookies } from "react-cookie";
 import styled from "styled-components";
+import axios from "axios";
+
+import { ROUTES, REDIRECT_CONDITION } from "../constants";
+import useUser from "../utils/useUser";
 
 const StyledDiv = styled.div`
   background-color: #202020;
@@ -21,6 +26,15 @@ const StyledSpan = styled.span`
 `;
 
 const Home = () => {
+  const { user, mutateUser } = useUser({
+    redirectTo: ROUTES.LIBRARY,
+    redirectWhen: REDIRECT_CONDITION.USER_FOUND,
+  });
+
+  const [token, setCookie, removeCookie] = useCookies([
+    process.env.REACT_APP_COOKIE_NAME,
+  ]);
+
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -34,9 +48,43 @@ const Home = () => {
     }
   };
 
-  const handleLogin = () => {};
+  const handleLogin = async () => {
+    try {
+      const { data } = await axios.post("http://localhost:3001/login", {
+        username,
+        password,
+      });
+      if (data?.token) {
+        setCookie(process.env.REACT_APP_COOKIE_NAME, data.token, {
+          path: "/",
+          maxAge: 24 * 60 * 60,
+        });
+      }
+      mutateUser();
+    } catch (err) {
+      console.log(err);
+      removeCookie(process.env.REACT_APP_COOKIE_NAME, { path: "/" });
+    }
+  };
 
-  const handleSignUp = () => {};
+  const handleSignUp = async () => {
+    try {
+      const { data } = await axios.post("http://localhost:3001/user", {
+        username,
+        password,
+      });
+      if (data?.token) {
+        setCookie(process.env.REACT_APP_COOKIE_NAME, data.token, {
+          path: "/",
+          maxAge: 24 * 60 * 60,
+        });
+      }
+      mutateUser();
+    } catch (err) {
+      console.log(err);
+      removeCookie(process.env.REACT_APP_COOKIE_NAME, { path: "/" });
+    }
+  };
 
   return (
     <div className="d-flex justify-content-center">
@@ -53,10 +101,7 @@ const Home = () => {
           </div>
         </Row>
         <Row>
-          <Form
-            id="create-word-set-form"
-            onSubmit={handleFormSubmit}
-          >
+          <Form id="create-word-set-form" onSubmit={handleFormSubmit}>
             <Form.Group className="mb-3">
               <Form.Label className="fw-bold">Username</Form.Label>
               <Form.Control

@@ -57,42 +57,39 @@ const WordSet = ({
 
   return (
     <React.Fragment>
-      {isOnEdit ? (
-        <WordSetFormModal
-          mode={FORM_MODE.EDIT}
-          show={isOnEdit}
-          defaultTitle={title}
-          defaultDescription={description}
-          handleSubmit={(title, description) =>
-            editWordSet(id, title, description)
-          }
-          handleClose={() => setIsOnEdit(false)}
-        />
-      ) : (
-        <StyledDiv onClick={handleClick}>
-          <Container>
-            <Row className="justify-content-md-center">
-              <div className="d-flex justify-content-between">
-                <span className="fs-4 fw-bold">{title}</span>
-                <div>
-                  <StyledIcon onClick={handleEdit}>
-                    <Pencil className="ms-2" />
-                  </StyledIcon>
-                  <StyledIcon onClick={handleDelete}>
-                    <Trash className="ms-2" />
-                  </StyledIcon>
-                </div>
+      <StyledDiv onClick={handleClick}>
+        <Container>
+          <Row className="justify-content-md-center">
+            <div className="d-flex justify-content-between">
+              <span className="fs-4 fw-bold">{title}</span>
+              <div>
+                <StyledIcon onClick={handleEdit}>
+                  <Pencil className="ms-2" />
+                </StyledIcon>
+                <StyledIcon onClick={handleDelete}>
+                  <Trash className="ms-2" />
+                </StyledIcon>
               </div>
-            </Row>
-            <Row>
-              <div className="d-flex justify-content-between">
-                <p className="text-black-50">{description}</p>
-                <p className="text-black-50">{wordCount} words</p>
-              </div>
-            </Row>
-          </Container>
-        </StyledDiv>
-      )}
+            </div>
+          </Row>
+          <Row>
+            <div className="d-flex justify-content-between">
+              <p className="text-black-50">{description}</p>
+              <p className="text-black-50">{wordCount} words</p>
+            </div>
+          </Row>
+        </Container>
+      </StyledDiv>
+      <WordSetFormModal
+        mode={FORM_MODE.EDIT}
+        show={isOnEdit}
+        defaultTitle={title}
+        defaultDescription={description}
+        handleSubmit={(title, description) =>
+          editWordSet(id, title, description)
+        }
+        handleClose={() => setIsOnEdit(false)}
+      />
       <ConfirmModal
         show={isOnDelete}
         title="Confirm Deletion"

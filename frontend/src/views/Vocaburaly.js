@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { PlusLg } from "react-bootstrap-icons";
 import { useParams } from "react-router";
+import { useCookies } from "react-cookie";
 import styled from "styled-components";
 import useSWR from "swr";
 import axios from "axios";
@@ -23,13 +24,20 @@ const StyledDiv = styled.div`
 `;
 
 const Vocaburaly = () => {
+  const [token] = useCookies([process.env.REACT_APP_COOKIE_NAME]);
   const { id } = useParams();
   const [showWordCardForm, setShowWordCardForm] = useState(false);
 
   const { data: wordSet, mutate } = useSWR(
     `http://localhost:3001/word-set/${id}`,
     async (url) => {
-      const res = await axios.get(url);
+      const res = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${
+            token[process.env.REACT_APP_COOKIE_NAME] || ""
+          }`,
+        },
+      });
       return res?.data ?? [];
     },
   );
@@ -39,10 +47,20 @@ const Vocaburaly = () => {
       ...wordSet,
       vocaburaly: [...wordSet.vocaburaly, { term, definition }],
     });
-    await axios.post(`http://localhost:3001/word-set/${id}/vocaburaly`, {
-      term,
-      definition,
-    });
+    await axios.post(
+      `http://localhost:3001/word-set/${id}/vocaburaly`,
+      {
+        term,
+        definition,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${
+            token[process.env.REACT_APP_COOKIE_NAME] || ""
+          }`,
+        },
+      },
+    );
     mutate();
   };
 
@@ -64,6 +82,13 @@ const Vocaburaly = () => {
         term,
         definition,
       },
+      {
+        headers: {
+          Authorization: `Bearer ${
+            token[process.env.REACT_APP_COOKIE_NAME] || ""
+          }`,
+        },
+      },
     );
     mutate();
   };
@@ -75,6 +100,13 @@ const Vocaburaly = () => {
     });
     await axios.delete(
       `http://localhost:3001/word-set/${id}/vocaburaly/${vocaburalyId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${
+            token[process.env.REACT_APP_COOKIE_NAME] || ""
+          }`,
+        },
+      },
     );
     mutate();
   };

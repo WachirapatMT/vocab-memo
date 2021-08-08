@@ -1,7 +1,7 @@
 import { Modal, Button } from "react-bootstrap";
 
-const ConfirmModal = ({ show, title, body, handleOk, handleCancel }) => (
-  <Modal show={show} onHide={handleCancel} centered>
+const ConfirmModal = ({ show, title, body, handleOk }) => (
+  <Modal show={show} onHide={handleOk} centered>
     <Modal.Header>
       <Modal.Title>{title}</Modal.Title>
     </Modal.Header>

@@ -9,6 +9,7 @@ import { Row, Col } from "react-bootstrap";
 
 import WordCard from "../components/WordCard";
 import WordCardForm from "../components/WordCardForm";
+import TrainCard from "../components/TrainCard";
 
 const StyledDiv = styled.div`
   display: flex;
@@ -24,23 +25,6 @@ const StyledDiv = styled.div`
   }
 `;
 
-const StyledCard = styled.div`
-  width: 100%;
-  height: 4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  font-size: 1.5rem;
-  box-shadow: 0px 0px 2px #cccccc;
-  background-color: ${(props) => props.bg};
-  border-radius: 10px;
-  &:hover {
-    box-shadow: 0px 0px 4px #aaaaaa;
-    opacity: 0.9;
-  }
-`;
-
 const Vocaburaly = () => {
   const [token] = useCookies([process.env.REACT_APP_COOKIE_NAME]);
   const { id } = useParams();
@@ -50,7 +34,6 @@ const Vocaburaly = () => {
   const { data: wordSet, mutate } = useSWR(
     `http://localhost:3001/word-set/${id}`,
     async (url) => {
-      console.log(id);
       const res = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${
@@ -139,17 +122,22 @@ const Vocaburaly = () => {
       </div>
       <Row className="mb-5">
         <Col>
-          <StyledCard
-            bg="#20c997"
-            onClick={() => history.push(`/${id}/flash-card`)}
-          >
-            Flash card
-          </StyledCard>
+          <TrainCard
+            title="Flash card"
+            bgColor="#20c997"
+            vocaburalyCount={wordSet?.vocaburaly.length}
+            vocaburalyMin={2}
+            redirectTo={`/${id}/flash-card`}
+          />
         </Col>
         <Col>
-          <StyledCard bg="#0dcaf0" onClick={() => history.push(`/${id}/quiz`)}>
-            Quiz
-          </StyledCard>
+          <TrainCard
+            title="Quiz"
+            bgColor="#0dcaf0"
+            vocaburalyCount={wordSet?.vocaburaly.length}
+            vocaburalyMin={5}
+            redirectTo={`/${id}/quiz`}
+          />
         </Col>
       </Row>
       {wordSet?.vocaburaly?.map(({ id, term, definition }) => (

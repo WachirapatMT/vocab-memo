@@ -27,6 +27,8 @@ db.wordset.insertMany([
       { id: 1, term: "eye", definition: "ตา" },
       { id: 2, term: "ear", definition: "หู" },
       { id: 3, term: "nose", definition: "จมูก" },
+      { id: 3, term: "mouth", definition: "ปาก" },
+      { id: 3, term: "hair", definition: "ผม" },
     ],
     user: "user",
   },

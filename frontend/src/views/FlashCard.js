@@ -5,24 +5,12 @@ import {
 } from "react-bootstrap-icons";
 import styled from "styled-components";
 
+import FlipCard from "../components/FlipCard";
+
 const StyledDiv = styled.div`
   height: 50vw;
   max-height: 500px;
-  width: 80vw;
   margin: 15vh 3rem 0px 3rem;
-`;
-
-const StyledMidDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #eeeeee;
-  box-shadow: 0px 0px 2px #cccccc;
-  height: 100%;
-  width: 100%;
-  &:hover {
-    background-color: #dddddd;
-  }
 `;
 
 const StyledSideDiv = styled.div`
@@ -52,7 +40,7 @@ const FlashCard = () => {
           </StyledSideDiv>
         </Col>
         <Col xs={8}>
-          <StyledMidDiv>Card</StyledMidDiv>
+          <FlipCard word="Elephant" definition="ช้าง" />
         </Col>
         <Col>
           <StyledSideDiv>

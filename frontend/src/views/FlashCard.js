@@ -1,4 +1,4 @@
-import { Row, Col, ProgressBar } from "react-bootstrap";
+import { Row, Col, ProgressBar, Carousel } from "react-bootstrap";
 import {
   CaretLeftSquareFill,
   CaretRightSquareFill,
@@ -8,20 +8,15 @@ import styled from "styled-components";
 import FlipCard from "../components/FlipCard";
 
 const StyledDiv = styled.div`
-  height: 50vw;
+  height: 100vh;
   max-height: 500px;
-  margin: 15vh 3rem 0px 3rem;
-`;
-
-const StyledSideDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
+  margin: 9vh 3rem 0px 3rem;
 `;
 
 const StyledIcon = styled.div`
+  position: relative;
+  ${(props) => props.direction}: -3rem;
+  color: black;
   opacity: 0.5;
   &:hover {
     opacity: 0.9;
@@ -31,24 +26,33 @@ const StyledIcon = styled.div`
 const FlashCard = () => {
   return (
     <StyledDiv>
-      <Row className="h-75 mb-5">
-        <Col>
-          <StyledSideDiv>
-            <StyledIcon>
+      <Row className="mb-5">
+        <Carousel
+          interval={null}
+          prevIcon={
+            <StyledIcon direction="left">
               <CaretLeftSquareFill size={40} />
             </StyledIcon>
-          </StyledSideDiv>
-        </Col>
-        <Col xs={8}>
-          <FlipCard word="Elephant" definition="ช้าง" />
-        </Col>
-        <Col>
-          <StyledSideDiv>
-            <StyledIcon>
+          }
+          prevLabel=""
+          nextIcon={
+            <StyledIcon direction="right">
               <CaretRightSquareFill size={40} />
             </StyledIcon>
-          </StyledSideDiv>
-        </Col>
+          }
+          nextLabel=""
+        >
+          <Carousel.Item>
+            <div className="d-flex justify-content-center">
+              <FlipCard word="Elephant" definition="ช้าง" />
+            </div>
+          </Carousel.Item>
+          <Carousel.Item>
+            <div className="d-flex justify-content-center">
+              <FlipCard word="Lion" definition="สิงโต" />
+            </div>
+          </Carousel.Item>
+        </Carousel>
       </Row>
       <Row>
         <Col />

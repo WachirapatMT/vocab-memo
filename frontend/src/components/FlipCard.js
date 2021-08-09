@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Row, Container } from "react-bootstrap";
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
@@ -7,13 +6,13 @@ const StyledDiv = styled.div`
   justify-content: center;
   align-items: center;
   background-color: transparent;
-  height: 100%;
-  width: 100%;
+  height: 400px;
+  width: 90%;
   perspective: 1000px;
+  margin: 5px;
 `;
 
 const StyledInnerFlipCard = styled.div`
-  position: relative;
   width: 100%;
   height: 100%;
   max-width: 600px;
@@ -65,7 +64,7 @@ const FlipCard = ({ word, definition }) => {
     <StyledDiv>
       <StyledInnerFlipCard onClick={() => setIsFlip(!isFlip)} isFlip={isFlip}>
         <StyledFrontFlipCard>
-          <StyledCardSection height="85%" fw="bold" fs="1.5rem">
+          <StyledCardSection height="85%" fw="bold" fs="2rem">
             {word}
           </StyledCardSection>
           <StyledCardSection height="15%" dark>
@@ -73,7 +72,7 @@ const FlipCard = ({ word, definition }) => {
           </StyledCardSection>
         </StyledFrontFlipCard>
         <StyledBackFlipCard>
-          <StyledCardSection height="85%" fw="bold" fs="1.5rem">
+          <StyledCardSection height="85%" fw="bold" fs="2rem">
             {definition}
           </StyledCardSection>
           <StyledCardSection height="15%" dark>

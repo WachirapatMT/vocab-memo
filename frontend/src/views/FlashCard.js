@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useCookies } from "react-cookie";
-import useSWR from "swr";
 import axios from "axios";
 import { Row, Col, ProgressBar, Carousel } from "react-bootstrap";
 import {
@@ -33,21 +32,20 @@ const FlashCard = () => {
   const [token] = useCookies([process.env.REACT_APP_COOKIE_NAME]);
   const { id } = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [vocaburalyList, setVocaburalySet] = useState([]);
 
-  const { data: vocaburalyList } = useSWR(
-    `http://localhost:3001/word-set/${id}`,
-    async (url) => {
-      const res = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${
-            token[process.env.REACT_APP_COOKIE_NAME] || ""
-          }`,
-        },
-      });
-      const vocaburalyList = res?.data?.vocaburaly ?? [];
-      return shuffle(vocaburalyList);
-    },
-  );
+  useEffect(async () => {
+    const res = await axios.get(`http://localhost:3001/word-set/${id}`, {
+      headers: {
+        Authorization: `Bearer ${
+          token[process.env.REACT_APP_COOKIE_NAME] || ""
+        }`,
+      },
+    });
+    const vocaburalyList = res?.data?.vocaburaly ?? [];
+    setVocaburalySet(shuffle(vocaburalyList));
+  }, []);
+
   return (
     <StyledDiv>
       <Row className="mb-5">
@@ -65,11 +63,11 @@ const FlashCard = () => {
             </StyledIcon>
           }
           nextLabel=""
-          onSlide={(eventKey, direction) => {
+          onSlide={(eventKey) => {
             setActiveIndex(eventKey);
           }}
         >
-          {vocaburalyList &&
+          {vocaburalyList?.length &&
             vocaburalyList.map(({ term, definition }) => (
               <Carousel.Item>
                 <div className="d-flex justify-content-center">

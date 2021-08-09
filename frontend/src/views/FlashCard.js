@@ -1,3 +1,8 @@
+import { useState } from "react";
+import { useParams } from "react-router";
+import { useCookies } from "react-cookie";
+import useSWR from "swr";
+import axios from "axios";
 import { Row, Col, ProgressBar, Carousel } from "react-bootstrap";
 import {
   CaretLeftSquareFill,
@@ -5,6 +10,7 @@ import {
 } from "react-bootstrap-icons";
 import styled from "styled-components";
 
+import { shuffle } from "../utils/shuffle";
 import FlipCard from "../components/FlipCard";
 
 const StyledDiv = styled.div`
@@ -24,6 +30,24 @@ const StyledIcon = styled.div`
 `;
 
 const FlashCard = () => {
+  const [token] = useCookies([process.env.REACT_APP_COOKIE_NAME]);
+  const { id } = useParams();
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const { data: vocaburalyList } = useSWR(
+    `http://localhost:3001/word-set/${id}`,
+    async (url) => {
+      const res = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${
+            token[process.env.REACT_APP_COOKIE_NAME] || ""
+          }`,
+        },
+      });
+      const vocaburalyList = res?.data?.vocaburaly ?? [];
+      return shuffle(vocaburalyList);
+    },
+  );
   return (
     <StyledDiv>
       <Row className="mb-5">
@@ -41,23 +65,30 @@ const FlashCard = () => {
             </StyledIcon>
           }
           nextLabel=""
+          onSlide={(eventKey, direction) => {
+            setActiveIndex(eventKey);
+          }}
         >
-          <Carousel.Item>
-            <div className="d-flex justify-content-center">
-              <FlipCard word="Elephant" definition="ช้าง" />
-            </div>
-          </Carousel.Item>
-          <Carousel.Item>
-            <div className="d-flex justify-content-center">
-              <FlipCard word="Lion" definition="สิงโต" />
-            </div>
-          </Carousel.Item>
+          {vocaburalyList &&
+            vocaburalyList.map(({ term, definition }) => (
+              <Carousel.Item>
+                <div className="d-flex justify-content-center">
+                  <FlipCard word={term} definition={definition} />
+                </div>
+              </Carousel.Item>
+            ))}
         </Carousel>
       </Row>
       <Row>
         <Col />
         <Col xs={6}>
-          <ProgressBar now={20} />
+          <ProgressBar
+            now={
+              vocaburalyList
+                ? (100 * (activeIndex + 1)) / vocaburalyList.length
+                : 0
+            }
+          />
         </Col>
         <Col />
       </Row>

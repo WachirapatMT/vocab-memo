@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PlusLg } from "react-bootstrap-icons";
-import { useParams, useHistory } from "react-router";
+import { useParams } from "react-router";
 import { useCookies } from "react-cookie";
 import styled from "styled-components";
 import useSWR from "swr";
@@ -28,7 +28,6 @@ const StyledDiv = styled.div`
 const Vocaburaly = () => {
   const [token] = useCookies([process.env.REACT_APP_COOKIE_NAME]);
   const { id } = useParams();
-  const history = useHistory();
   const [showWordCardForm, setShowWordCardForm] = useState(false);
 
   const { data: wordSet, mutate } = useSWR(

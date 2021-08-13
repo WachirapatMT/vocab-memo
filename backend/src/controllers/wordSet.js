@@ -73,7 +73,7 @@ async function addVocaburaly(req, res) {
     .collection(dbConfig.wordsetCollection)
     .updateOne(
       { _id: new ObjectId(id) },
-      { $push: { vocaburaly: { id: (length + 1).toString(), ...req.body } } },
+      { $push: { vocaburaly: { id: new ObjectId(), ...req.body } } },
     );
   res.send(result);
 }

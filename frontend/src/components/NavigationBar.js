@@ -4,6 +4,7 @@ import { Navbar, Container, Nav } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import styled from "styled-components";
 
+import { config } from "../config";
 import { ROUTES, REDIRECT_CONDITION } from "../constants";
 import useUser from "../utils/useUser";
 
@@ -38,7 +39,7 @@ const NavigationBar = () => {
   ]);
 
   const handleLogout = () => {
-    removeCookie(process.env.REACT_APP_COOKIE_NAME, { path: "/" });
+    removeCookie(config.cookieName, { path: "/" });
     history.push(ROUTES.HOME);
   };
 

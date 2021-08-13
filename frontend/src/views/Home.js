@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import styled from "styled-components";
 import axios from "axios";
 
+import { config } from "../config";
 import { ROUTES, REDIRECT_CONDITION } from "../constants";
 import useUser from "../utils/useUser";
 import WarningModal from "../components/WarningModal";
@@ -32,9 +33,7 @@ const Home = () => {
     redirectWhen: REDIRECT_CONDITION.USER_FOUND,
   });
 
-  const [token, setCookie, removeCookie] = useCookies([
-    process.env.REACT_APP_COOKIE_NAME,
-  ]);
+  const [token, setCookie, removeCookie] = useCookies([config.cookieName]);
 
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState("");
@@ -52,21 +51,21 @@ const Home = () => {
 
   const handleLogin = async () => {
     try {
-      const { data } = await axios.post("http://localhost:3001/login", {
+      const { data } = await axios.post(`${config.apiHost}/login`, {
         username,
         password,
       });
       console.log("no error");
       if (data?.token) {
-        setCookie(process.env.REACT_APP_COOKIE_NAME, data.token, {
+        setCookie(config.cookieName, data.token, {
           path: "/",
-          maxAge: 24 * 60 * 60,
+          maxAge: config.cookieMaxAge,
         });
       }
       mutateUser();
     } catch (err) {
       setShowWarningModal(true);
-      removeCookie(process.env.REACT_APP_COOKIE_NAME, { path: "/" });
+      removeCookie(config.cookieName, { path: "/" });
     } finally {
       setUsername("");
       setPassword("");
@@ -75,20 +74,20 @@ const Home = () => {
 
   const handleSignUp = async () => {
     try {
-      const { data } = await axios.post("http://localhost:3001/user", {
+      const { data } = await axios.post(`${config.apiHost}/user`, {
         username,
         password,
       });
       if (data?.token) {
-        setCookie(process.env.REACT_APP_COOKIE_NAME, data.token, {
+        setCookie(config.cookieName, data.token, {
           path: "/",
-          maxAge: 24 * 60 * 60,
+          maxAge: config.cookieMaxAge,
         });
       }
       mutateUser();
     } catch (err) {
       setShowWarningModal(true);
-      removeCookie(process.env.REACT_APP_COOKIE_NAME, { path: "/" });
+      removeCookie(config.cookieName, { path: "/" });
     } finally {
       setUsername("");
       setPassword("");

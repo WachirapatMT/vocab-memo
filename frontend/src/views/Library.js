@@ -5,6 +5,7 @@ import { PlusLg } from "react-bootstrap-icons";
 import useSWR from "swr";
 import axios from "axios";
 
+import { config } from "../config";
 import WordSet from "../components/WordSet";
 import WordSetFormModal from "../components/WordSetFormModal";
 import { FORM_MODE } from "../constants";
@@ -24,17 +25,15 @@ const StyledDiv = styled.div`
 `;
 
 const Library = () => {
-  const [token] = useCookies([process.env.REACT_APP_COOKIE_NAME]);
+  const [token] = useCookies([config.cookieName]);
   const [showCreateFormModal, setShowCreateFormModal] = useState(false);
 
   const { data: wordSetList, mutate } = useSWR(
-    "http://localhost:3001/word-set",
+    `${config.apiHost}/word-set`,
     async (url) => {
       const res = await axios.get(url, {
         headers: {
-          Authorization: `Bearer ${
-            token[process.env.REACT_APP_COOKIE_NAME] || ""
-          }`,
+          Authorization: `Bearer ${token[config.cookieName] || ""}`,
         },
       });
       return res?.data ?? [];
@@ -44,13 +43,11 @@ const Library = () => {
   const addWordSet = async (title, description) => {
     mutate([...wordSetList, { title, description, vocaburaly: [] }]);
     await axios.post(
-      "http://localhost:3001/word-set",
+      `${config.apiHost}/word-set`,
       { title, description },
       {
         headers: {
-          Authorization: `Bearer ${
-            token[process.env.REACT_APP_COOKIE_NAME] || ""
-          }`,
+          Authorization: `Bearer ${token[config.cookieName] || ""}`,
         },
       },
     );
@@ -67,16 +64,14 @@ const Library = () => {
       },
     ]);
     await axios.patch(
-      `http://localhost:3001/word-set/${id}`,
+      `${config.apiHost}/word-set/${id}`,
       {
         title,
         description,
       },
       {
         headers: {
-          Authorization: `Bearer ${
-            token[process.env.REACT_APP_COOKIE_NAME] || ""
-          }`,
+          Authorization: `Bearer ${token[config.cookieName] || ""}`,
         },
       },
     );
@@ -85,11 +80,9 @@ const Library = () => {
 
   const deleteWordSet = async (id) => {
     mutate(wordSetList.filter((wordSet) => wordSet._id !== id));
-    await axios.delete(`http://localhost:3001/word-set/${id}`, {
+    await axios.delete(`${config.apiHost}/word-set/${id}`, {
       headers: {
-        Authorization: `Bearer ${
-          token[process.env.REACT_APP_COOKIE_NAME] || ""
-        }`,
+        Authorization: `Bearer ${token[config.cookieName] || ""}`,
       },
     });
     mutate();

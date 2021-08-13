@@ -7,6 +7,7 @@ import useSWR from "swr";
 import axios from "axios";
 import { Row, Col } from "react-bootstrap";
 
+import { config } from "../config";
 import WordCard from "../components/WordCard";
 import WordCardForm from "../components/WordCardForm";
 import TrainCard from "../components/TrainCard";
@@ -26,18 +27,16 @@ const StyledDiv = styled.div`
 `;
 
 const Vocaburaly = () => {
-  const [token] = useCookies([process.env.REACT_APP_COOKIE_NAME]);
+  const [token] = useCookies([config.cookieName]);
   const { id } = useParams();
   const [showWordCardForm, setShowWordCardForm] = useState(false);
 
   const { data: wordSet, mutate } = useSWR(
-    `http://localhost:3001/word-set/${id}`,
+    `${config.apiHost}/word-set/${id}`,
     async (url) => {
       const res = await axios.get(url, {
         headers: {
-          Authorization: `Bearer ${
-            token[process.env.REACT_APP_COOKIE_NAME] || ""
-          }`,
+          Authorization: `Bearer ${token[config.cookieName] || ""}`,
         },
       });
       return res?.data ?? [];
@@ -50,16 +49,14 @@ const Vocaburaly = () => {
       vocaburaly: [...wordSet.vocaburaly, { term, definition }],
     });
     await axios.post(
-      `http://localhost:3001/word-set/${id}/vocaburaly`,
+      `${config.apiHost}/word-set/${id}/vocaburaly`,
       {
         term,
         definition,
       },
       {
         headers: {
-          Authorization: `Bearer ${
-            token[process.env.REACT_APP_COOKIE_NAME] || ""
-          }`,
+          Authorization: `Bearer ${token[config.cookieName] || ""}`,
         },
       },
     );
@@ -79,16 +76,14 @@ const Vocaburaly = () => {
       ],
     });
     await axios.patch(
-      `http://localhost:3001/word-set/${id}/vocaburaly/${vocaburalyId}`,
+      `${config.apiHost}/word-set/${id}/vocaburaly/${vocaburalyId}`,
       {
         term,
         definition,
       },
       {
         headers: {
-          Authorization: `Bearer ${
-            token[process.env.REACT_APP_COOKIE_NAME] || ""
-          }`,
+          Authorization: `Bearer ${token[config.cookieName] || ""}`,
         },
       },
     );
@@ -101,12 +96,10 @@ const Vocaburaly = () => {
       vocaburaly: wordSet.vocaburaly.filter(({ id }) => id !== vocaburalyId),
     });
     await axios.delete(
-      `http://localhost:3001/word-set/${id}/vocaburaly/${vocaburalyId}`,
+      `${config.apiHost}/word-set/${id}/vocaburaly/${vocaburalyId}`,
       {
         headers: {
-          Authorization: `Bearer ${
-            token[process.env.REACT_APP_COOKIE_NAME] || ""
-          }`,
+          Authorization: `Bearer ${token[config.cookieName] || ""}`,
         },
       },
     );

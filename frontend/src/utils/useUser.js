@@ -4,32 +4,29 @@ import useSWR from "swr";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 
+import { config } from "../config";
 import { REDIRECT_CONDITION } from "../constants";
 
 export default function useUser({
   redirectTo = null,
   redirectWhen = REDIRECT_CONDITION.USER_NOT_FOUND,
 } = {}) {
-  const [token, setCookie, removeCookie] = useCookies([
-    process.env.REACT_APP_COOKIE_NAME,
-  ]);
+  const [token, setCookie, removeCookie] = useCookies([config.cookieName]);
   const history = useHistory();
 
   const { data: user = null, mutate: mutateUser } = useSWR(
-    ["http://localhost:3001/user", token],
+    [`${config.apiHost}/user`, token],
     async (url, token) => {
-      if (!token[process.env.REACT_APP_COOKIE_NAME]) return;
+      if (!token[config.cookieName]) return;
       try {
         const res = await axios.get(url, {
           headers: {
-            Authorization: `Bearer ${
-              token[process.env.REACT_APP_COOKIE_NAME] || ""
-            }`,
+            Authorization: `Bearer ${token[config.cookieName] || ""}`,
           },
         });
         return res?.data ?? null;
       } catch (err) {
-        removeCookie(process.env.REACT_APP_COOKIE_NAME, { path: "/" });
+        removeCookie(config.cookieName, { path: "/" });
         return null;
       }
     },
@@ -37,10 +34,10 @@ export default function useUser({
 
   useEffect(() => {
     const redirectAsUserFound =
-      token[process.env.REACT_APP_COOKIE_NAME] &&
+      token[config.cookieName] &&
       redirectWhen === REDIRECT_CONDITION.USER_FOUND;
     const redirectAsUserNotFound =
-      !token[process.env.REACT_APP_COOKIE_NAME] &&
+      !token[config.cookieName] &&
       redirectWhen === REDIRECT_CONDITION.USER_NOT_FOUND;
 
     if (redirectTo && (redirectAsUserNotFound || redirectAsUserFound)) {

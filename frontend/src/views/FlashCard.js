@@ -9,8 +9,9 @@ import {
 } from "react-bootstrap-icons";
 import styled from "styled-components";
 
-import { shuffle } from "../utils/shuffle";
+import { config } from "../config";
 import FlipCard from "../components/FlipCard";
+import { shuffle } from "../utils/shuffle";
 
 const StyledDiv = styled.div`
   height: 100vh;
@@ -29,17 +30,15 @@ const StyledIcon = styled.div`
 `;
 
 const FlashCard = () => {
-  const [token] = useCookies([process.env.REACT_APP_COOKIE_NAME]);
+  const [token] = useCookies([config.cookieName]);
   const { id } = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
   const [vocaburalyList, setVocaburalySet] = useState([]);
 
   useEffect(async () => {
-    const res = await axios.get(`http://localhost:3001/word-set/${id}`, {
+    const res = await axios.get(`${config.apiHost}/word-set/${id}`, {
       headers: {
-        Authorization: `Bearer ${
-          token[process.env.REACT_APP_COOKIE_NAME] || ""
-        }`,
+        Authorization: `Bearer ${token[config.cookieName] || ""}`,
       },
     });
     const vocaburalyList = res?.data?.vocaburaly ?? [];

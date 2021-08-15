@@ -35,6 +35,7 @@ const Home = () => {
 
   const [token, setCookie, removeCookie] = useCookies([config.cookieName]);
 
+  const [validated, setValidated] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -72,6 +73,10 @@ const Home = () => {
   };
 
   const handleSignUp = async () => {
+    setValidated(true);
+    if (password.length < 8) {
+      return;
+    }
     try {
       const { data } = await axios.post(`${config.apiHost}/user`, {
         username,
@@ -88,6 +93,7 @@ const Home = () => {
       setShowWarningModal(true);
       removeCookie(config.cookieName, { path: "/" });
     } finally {
+      setValidated(false);
       setUsername("");
       setPassword("");
     }
@@ -126,9 +132,13 @@ const Home = () => {
                   required
                   type="password"
                   placeholder="Enter password"
+                  isInvalid={validated && password.length < 8}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                <Form.Control.Feedback type="invalid">
+                  Password must contain at least 8 characters
+                </Form.Control.Feedback>
               </Form.Group>
               <div className="d-flex justify-content-center my-4">
                 <Button variant="primary" type="submit">

@@ -24,15 +24,15 @@ const StyledDiv = styled.div`
 const TrainCard = ({
   title,
   bgColor,
-  vocaburalyCount,
-  vocaburalyMin,
+  vocabularyCount,
+  vocabularyMin,
   redirectTo,
 }) => {
   const history = useHistory();
   const [showWarningModal, setShowWarningModal] = useState(false);
 
   const handleClick = () => {
-    if (vocaburalyCount >= vocaburalyMin) {
+    if (vocabularyCount >= vocabularyMin) {
       history.push(redirectTo);
     } else {
       setShowWarningModal(true);
@@ -44,14 +44,14 @@ const TrainCard = ({
       <StyledDiv
         bg={bgColor}
         onClick={handleClick}
-        active={vocaburalyCount >= vocaburalyMin}
+        active={vocabularyCount >= vocabularyMin}
       >
         {title}
       </StyledDiv>
       <WarningModal
         show={showWarningModal}
         title="Trainig Unavailable"
-        body={`This training requires a word set to have at least ${vocaburalyMin} words`}
+        body={`This training requires a word set to have at least ${vocabularyMin} words`}
         handleOk={() => setShowWarningModal(false)}
       />
     </React.Fragment>

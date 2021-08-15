@@ -1,7 +1,7 @@
 export const ROUTES = {
   HOME: "/",
   LIBRARY: "/library",
-  VOCABURALY: "/:id",
+  VOCABULARY: "/:id",
   FLASH_CARD: "/:id/flash-card",
   QUIZ: "/:id/quiz",
 };

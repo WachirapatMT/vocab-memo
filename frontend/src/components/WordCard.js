@@ -26,15 +26,15 @@ const StyledIcon = styled.div`
 `;
 
 const WordCard = ({
-  id: vocaburalyId,
+  id: vocabularyId,
   term,
   definition,
-  editVocaburaly,
-  deleteVocaburaly,
+  editVocabulary,
+  deleteVocabulary,
   isFormActive,
   setIsFormActive,
 }) => {
-  const [id] = useState(vocaburalyId);
+  const [id] = useState(vocabularyId);
   const [isOnEdit, setIsOnEdit] = useState(false);
 
   const handleEdit = (e) => {
@@ -44,7 +44,7 @@ const WordCard = ({
 
   const handleDelete = (e) => {
     e.stopPropagation();
-    deleteVocaburaly(id);
+    deleteVocabulary(id);
   };
 
   return (
@@ -57,7 +57,7 @@ const WordCard = ({
           setIsFormActive={setIsFormActive}
           handleClose={() => setIsOnEdit(false)}
           handleSubmit={(term, definition) =>
-            editVocaburaly(id, term, definition)
+            editVocabulary(id, term, definition)
           }
         />
       ) : (

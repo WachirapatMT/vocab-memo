@@ -31,8 +31,8 @@ const Quiz = () => {
   const history = useHistory();
   const [token] = useCookies([config.cookieName]);
   const { id } = useParams();
-  const [vocaburalyList, setVocaburalySet] = useState([]);
-  const [currentVocaburalyIndex, setCurrentVocaburalyIndex] = useState(0);
+  const [vocabularyList, setVocabularySet] = useState([]);
+  const [currentVocabularyIndex, setCurrentVocabularyIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const isReadOnly = useRef(false);
 
@@ -42,8 +42,8 @@ const Quiz = () => {
         Authorization: `Bearer ${token[config.cookieName] || ""}`,
       },
     });
-    const vocaburalyList = res?.data?.vocaburaly ?? [];
-    setVocaburalySet(shuffle(vocaburalyList));
+    const vocabularyList = res?.data?.vocabulary ?? [];
+    setVocabularySet(shuffle(vocabularyList));
   }, []);
 
   const handleType = (e) => {
@@ -54,18 +54,18 @@ const Quiz = () => {
   const handleHint = () => {
     for (
       let i = 0;
-      i < vocaburalyList[currentVocaburalyIndex].definition.length;
+      i < vocabularyList[currentVocabularyIndex].definition.length;
       i++
     ) {
       if (
         i > answer.length - 1 ||
-        vocaburalyList[currentVocaburalyIndex].definition[i] !== answer[i]
+        vocabularyList[currentVocabularyIndex].definition[i] !== answer[i]
       ) {
         setAnswer(
-          vocaburalyList[currentVocaburalyIndex].definition.substring(0, i + 1),
+          vocabularyList[currentVocabularyIndex].definition.substring(0, i + 1),
         );
         checkAnswer(
-          vocaburalyList[currentVocaburalyIndex].definition.substring(0, i + 1),
+          vocabularyList[currentVocabularyIndex].definition.substring(0, i + 1),
         );
         break;
       }
@@ -73,9 +73,9 @@ const Quiz = () => {
   };
 
   const checkAnswer = (string) => {
-    if (string === vocaburalyList[currentVocaburalyIndex].definition) {
+    if (string === vocabularyList[currentVocabularyIndex].definition) {
       isReadOnly.current = true;
-      if (currentVocaburalyIndex + 1 >= vocaburalyList.length) {
+      if (currentVocabularyIndex + 1 >= vocabularyList.length) {
         setTimeout(() => {
           history.push(`/${id}`);
         }, 1000);
@@ -83,7 +83,7 @@ const Quiz = () => {
         setTimeout(() => {
           isReadOnly.current = false;
           setAnswer("");
-          setCurrentVocaburalyIndex(currentVocaburalyIndex + 1);
+          setCurrentVocabularyIndex(currentVocabularyIndex + 1);
         }, 1000);
       }
     }
@@ -94,14 +94,14 @@ const Quiz = () => {
       <ProgressBar
         className="mx-5"
         now={
-          vocaburalyList
-            ? (100 * currentVocaburalyIndex) / vocaburalyList.length
+          vocabularyList
+            ? (100 * currentVocabularyIndex) / vocabularyList.length
             : 0
         }
       />
       <StyledInnerDiv>
-        {vocaburalyList.length
-          ? vocaburalyList[currentVocaburalyIndex].term
+        {vocabularyList.length
+          ? vocabularyList[currentVocabularyIndex].term
           : "Loading..."}
       </StyledInnerDiv>
       <div className="d-flex justify-content-center">

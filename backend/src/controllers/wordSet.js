@@ -30,7 +30,7 @@ async function createWordSet(req, res) {
     const { title, description } = req.body;
     const result = await db
       .collection(dbConfig.wordsetCollection)
-      .insertOne({ title, description, vocaburaly: [], user: username });
+      .insertOne({ title, description, vocabulary: [], user: username });
     res.send(result);
   } else {
     res.status(400).send("Bad request");
@@ -60,36 +60,36 @@ async function deleteWordSetById(req, res) {
   res.send(result);
 }
 
-async function addVocaburaly(req, res) {
+async function addVocabulary(req, res) {
   const db = await MongoConnection.getConnection();
   const { id } = req.params;
 
   const wordSet = await db
     .collection(dbConfig.wordsetCollection)
     .findOne({ _id: new ObjectId(id) });
-  const length = wordSet.vocaburaly.length;
+  const length = wordSet.vocabulary.length;
 
   const result = await db
     .collection(dbConfig.wordsetCollection)
     .updateOne(
       { _id: new ObjectId(id) },
-      { $push: { vocaburaly: { id: new ObjectId(), ...req.body } } },
+      { $push: { vocabulary: { id: new ObjectId(), ...req.body } } },
     );
   res.send(result);
 }
 
-async function updateVocaburaly(req, res) {
+async function updateVocabulary(req, res) {
   const db = await MongoConnection.getConnection();
-  const { id, vocaburalyId } = req.params;
+  const { id, vocabularyId } = req.params;
   if (req.body) {
     Object.keys(req.body).map((key) => {
-      req.body[`vocaburaly.$.${key}`] = req.body[key];
+      req.body[`vocabulary.$.${key}`] = req.body[key];
       delete req.body[key];
     });
     const result = await db
       .collection(dbConfig.wordsetCollection)
       .updateOne(
-        { _id: new ObjectId(id), "vocaburaly.id": vocaburalyId },
+        { _id: new ObjectId(id), "vocabulary.id": vocabularyId },
         { $set: req.body },
       );
     res.send(result);
@@ -98,14 +98,14 @@ async function updateVocaburaly(req, res) {
   }
 }
 
-async function deleteVocaburaly(req, res) {
+async function deleteVocabulary(req, res) {
   const db = await MongoConnection.getConnection();
-  const { id, vocaburalyId } = req.params;
+  const { id, vocabularyId } = req.params;
   const result = await db
     .collection(dbConfig.wordsetCollection)
     .updateOne(
       { _id: new ObjectId(id) },
-      { $pull: { vocaburaly: { id: vocaburalyId } } },
+      { $pull: { vocabulary: { id: vocabularyId } } },
     );
   res.send(result);
 }
@@ -116,7 +116,7 @@ module.exports = {
   createWordSet,
   updateWordSetById,
   deleteWordSetById,
-  addVocaburaly,
-  updateVocaburaly,
-  deleteVocaburaly,
+  addVocabulary,
+  updateVocabulary,
+  deleteVocabulary,
 };

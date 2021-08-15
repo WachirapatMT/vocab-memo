@@ -26,7 +26,7 @@ const StyledDiv = styled.div`
   }
 `;
 
-const Vocaburaly = () => {
+const Vocabulary = () => {
   const [token] = useCookies([config.cookieName]);
   const { id } = useParams();
   const [showWordCardForm, setShowWordCardForm] = useState(false);
@@ -43,13 +43,13 @@ const Vocaburaly = () => {
     },
   );
 
-  const addVocaburaly = async (term, definition) => {
+  const addVocabulary = async (term, definition) => {
     mutate({
       ...wordSet,
-      vocaburaly: [...wordSet.vocaburaly, { term, definition }],
+      vocabulary: [...wordSet.vocabulary, { term, definition }],
     });
     await axios.post(
-      `${config.apiHost}/word-set/${id}/vocaburaly`,
+      `${config.apiHost}/word-set/${id}/vocabulary`,
       {
         term,
         definition,
@@ -63,20 +63,20 @@ const Vocaburaly = () => {
     mutate();
   };
 
-  const editVocaburaly = async (vocaburalyId, term, definition) => {
+  const editVocabulary = async (vocabularyId, term, definition) => {
     mutate({
       ...wordSet,
-      vocaburaly: [
-        ...wordSet.vocaburaly.filter(({ id }) => id !== vocaburalyId),
+      vocabulary: [
+        ...wordSet.vocabulary.filter(({ id }) => id !== vocabularyId),
         {
-          ...wordSet.vocaburaly.find(({ id }) => id === vocaburalyId),
+          ...wordSet.vocabulary.find(({ id }) => id === vocabularyId),
           term,
           definition,
         },
       ],
     });
     await axios.patch(
-      `${config.apiHost}/word-set/${id}/vocaburaly/${vocaburalyId}`,
+      `${config.apiHost}/word-set/${id}/vocabulary/${vocabularyId}`,
       {
         term,
         definition,
@@ -90,13 +90,13 @@ const Vocaburaly = () => {
     mutate();
   };
 
-  const deleteVocaburaly = async (vocaburalyId) => {
+  const deleteVocabulary = async (vocabularyId) => {
     mutate({
       ...wordSet,
-      vocaburaly: wordSet.vocaburaly.filter(({ id }) => id !== vocaburalyId),
+      vocabulary: wordSet.vocabulary.filter(({ id }) => id !== vocabularyId),
     });
     await axios.delete(
-      `${config.apiHost}/word-set/${id}/vocaburaly/${vocaburalyId}`,
+      `${config.apiHost}/word-set/${id}/vocabulary/${vocabularyId}`,
       {
         headers: {
           Authorization: `Bearer ${token[config.cookieName] || ""}`,
@@ -117,8 +117,8 @@ const Vocaburaly = () => {
           <TrainCard
             title="Flash card"
             bgColor="#20c997"
-            vocaburalyCount={wordSet?.vocaburaly.length}
-            vocaburalyMin={config.flaseCardMinVocab}
+            vocabularyCount={wordSet?.vocabulary?.length || 0}
+            vocabularyMin={config.flaseCardMinVocab}
             redirectTo={`/${id}/flash-card`}
           />
         </Col>
@@ -126,26 +126,26 @@ const Vocaburaly = () => {
           <TrainCard
             title="Quiz"
             bgColor="#0dcaf0"
-            vocaburalyCount={wordSet?.vocaburaly.length}
-            vocaburalyMin={config.quizMinVocab}
+            vocabularyCount={wordSet?.vocabulary?.length || 0}
+            vocabularyMin={config.quizMinVocab}
             redirectTo={`/${id}/quiz`}
           />
         </Col>
       </Row>
-      {wordSet?.vocaburaly?.map(({ id, term, definition }) => (
+      {wordSet?.vocabulary?.map(({ id, term, definition }) => (
         <WordCard
           key={id}
           id={id}
           term={term}
           definition={definition}
-          editVocaburaly={editVocaburaly}
-          deleteVocaburaly={deleteVocaburaly}
+          editVocabulary={editVocabulary}
+          deleteVocabulary={deleteVocabulary}
         />
       ))}
       {showWordCardForm && (
         <WordCardForm
           handleClose={() => setShowWordCardForm(false)}
-          handleSubmit={addVocaburaly}
+          handleSubmit={addVocabulary}
         />
       )}
       <StyledDiv onClick={() => setShowWordCardForm(true)}>
@@ -155,4 +155,4 @@ const Vocaburaly = () => {
   );
 };
 
-export default Vocaburaly;
+export default Vocabulary;

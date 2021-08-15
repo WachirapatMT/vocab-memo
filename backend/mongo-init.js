@@ -23,7 +23,7 @@ db.wordset.insertMany([
   {
     title: "TCAS",
     description: "Prepare for TCAS",
-    vocaburaly: [
+    vocabulary: [
       { id: ObjectId(), term: "eye", definition: "ตา" },
       { id: ObjectId(), term: "ear", definition: "หู" },
       { id: ObjectId(), term: "nose", definition: "จมูก" },
@@ -35,7 +35,7 @@ db.wordset.insertMany([
   {
     title: "CUTEP",
     description: "Prepare for CUTEP",
-    vocaburaly: [
+    vocabulary: [
       { id: ObjectId(), term: "insolent", definition: "อวดดี" },
       { id: ObjectId(), term: "abhor", definition: "เกลียด" },
       { id: ObjectId(), term: "imitate", definition: "เลียนแบบ" },
@@ -45,7 +45,7 @@ db.wordset.insertMany([
   {
     title: "IELTS",
     description: "Prepare for IELTS",
-    vocaburaly: [
+    vocabulary: [
       { id: ObjectId(), term: "inundate", definition: "น้ำท่วม" },
       { id: ObjectId(), term: "mawkish", definition: "จืดชืด" },
       { id: ObjectId(), term: "despot", definition: "ทรราช" },

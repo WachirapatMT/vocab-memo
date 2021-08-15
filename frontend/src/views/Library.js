@@ -41,7 +41,7 @@ const Library = () => {
   );
 
   const addWordSet = async (title, description) => {
-    mutate([...wordSetList, { title, description, vocaburaly: [] }]);
+    mutate([...wordSetList, { title, description, vocabulary: [] }]);
     await axios.post(
       `${config.apiHost}/word-set`,
       { title, description },
@@ -91,15 +91,15 @@ const Library = () => {
   return (
     <div>
       <div className="py-5">
-        <h1 className="fw-bold">My vocaburaly sets</h1>
+        <h1 className="fw-bold">My vocabulary sets</h1>
       </div>
-      {wordSetList?.map(({ _id, title, description, vocaburaly }) => (
+      {wordSetList?.map(({ _id, title, description, vocabulary }) => (
         <WordSet
           key={_id}
           id={_id}
           title={title}
           description={description}
-          wordCount={vocaburaly.length}
+          wordCount={vocabulary.length}
           editWordSet={editWordSet}
           deleteWordSet={deleteWordSet}
         />

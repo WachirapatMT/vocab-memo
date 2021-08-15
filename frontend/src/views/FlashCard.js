@@ -33,7 +33,7 @@ const FlashCard = () => {
   const [token] = useCookies([config.cookieName]);
   const { id } = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [vocaburalyList, setVocaburalySet] = useState([]);
+  const [vocabularyList, setVocabularySet] = useState([]);
 
   useEffect(async () => {
     const res = await axios.get(`${config.apiHost}/word-set/${id}`, {
@@ -41,8 +41,8 @@ const FlashCard = () => {
         Authorization: `Bearer ${token[config.cookieName] || ""}`,
       },
     });
-    const vocaburalyList = res?.data?.vocaburaly ?? [];
-    setVocaburalySet(shuffle(vocaburalyList));
+    const vocabularyList = res?.data?.vocabulary ?? [];
+    setVocabularySet(shuffle(vocabularyList));
   }, []);
 
   return (
@@ -66,8 +66,8 @@ const FlashCard = () => {
             setActiveIndex(eventKey);
           }}
         >
-          {vocaburalyList?.length &&
-            vocaburalyList.map(({ term, definition }) => (
+          {vocabularyList?.length &&
+            vocabularyList.map(({ term, definition }) => (
               <Carousel.Item>
                 <div className="d-flex justify-content-center">
                   <FlipCard word={term} definition={definition} />
@@ -81,8 +81,8 @@ const FlashCard = () => {
         <Col xs={6}>
           <ProgressBar
             now={
-              vocaburalyList
-                ? (100 * (activeIndex + 1)) / vocaburalyList.length
+              vocabularyList
+                ? (100 * (activeIndex + 1)) / vocabularyList.length
                 : 0
             }
           />

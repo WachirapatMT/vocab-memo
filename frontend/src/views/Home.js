@@ -55,7 +55,6 @@ const Home = () => {
         username,
         password,
       });
-      console.log("no error");
       if (data?.token) {
         setCookie(config.cookieName, data.token, {
           path: "/",

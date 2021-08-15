@@ -4,7 +4,7 @@ VocabMemo is a web application which let users build their own vocabulary sets a
 
 # Demo
 Coming soon...
-# Tech/framework used
+# Technologies & Frameworks
 
 - Frontend
   - [ReactJS](https://reactjs.org/)

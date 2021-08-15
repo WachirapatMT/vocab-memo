@@ -52,7 +52,13 @@ const NavigationBar = () => {
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href={ROUTES.HOME}>Vocab Memo</Navbar.Brand>
+        <Navbar.Brand href={ROUTES.HOME}><img
+        src="/logo.png"
+        width="30"
+        height="30"
+        className="d-inline-block align-top me-2"
+        alt="VocabMemo logo"
+      />Vocab Memo</Navbar.Brand>
         {user && (
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">

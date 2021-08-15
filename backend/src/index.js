@@ -1,10 +1,7 @@
-const express = require("express");
-const cors = require("cors");
-
 const appConfig = require("config").get("appConfig");
 
-const middleware = require("./middlewares/authentication");
-const controller = require("./controllers");
+const express = require("express");
+const cors = require("cors");
 
 // Initialize express app
 const app = express();
@@ -16,10 +13,11 @@ app.use(express.json());
 // Enable CORS
 app.use(cors());
 
-// user endpoint
-app.use("/user", require("./routes/user"));
+// Initialize database
+require("./datasources/mongodb").getConnection();
 
-// word-set endpoint
+// Endpoint handler
+app.use("/user", require("./routes/user"));
 app.use("/word-set", require("./routes/wordSet"));
 
 // Error handler

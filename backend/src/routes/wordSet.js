@@ -1,21 +1,19 @@
 const router = require("express").Router();
 const middleware = require("../middlewares/authentication");
-const controller = require("../controllers");
+const controller = require("../controllers/wordSet.controller");
 
 router.use("/", middleware.authenticateUser);
-router.get("/", controller.WordSet.getWordSets);
-router.get("/:id", controller.WordSet.getWordSetById);
-router.post("/", controller.WordSet.createWordSet);
-router.patch("/:id", controller.WordSet.updateWordSetById);
-router.delete("/:id", controller.WordSet.deleteWordSetById);
-router.post("/:id/vocabulary", controller.WordSet.addVocabulary);
-router.patch(
-  "/:id/vocabulary/:vocabularyId",
-  controller.WordSet.updateVocabulary,
-);
-router.delete(
-  "/:id/vocabulary/:vocabularyId",
-  controller.WordSet.deleteVocabulary,
-);
+
+router.get("/", controller.getWordSets);
+router.get("/:id", controller.getWordSetById);
+
+router.post("/", controller.createWordSet);
+router.post("/:id/vocabulary", controller.addVocabulary);
+
+router.patch("/:id", controller.updateWordSetById);
+router.patch("/:id/vocabulary/:vocabularyId", controller.updateVocabulary);
+
+router.delete("/:id", controller.deleteWordSetById);
+router.delete("/:id/vocabulary/:vocabularyId", controller.deleteVocabulary);
 
 module.exports = router;

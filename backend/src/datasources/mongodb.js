@@ -1,8 +1,7 @@
 const { MongoClient } = require("mongodb");
+const dbConfig = require("config").get("dbConfig");
 
-const MONGO_URL =
-  process.env.MONGO_URL || "mongodb://user:password@mongodb:27017/vocabmemo";
-const DB_NAME = process.env.DB_NAME || "vocabmemo";
+const MONGO_URL = `mongodb://${dbConfig.username}:${dbConfig.password}@${dbConfig.hostname}:${dbConfig.port}/${dbConfig.dbName}`;
 
 const MongoConnection = function () {
   let db = null;
@@ -12,7 +11,7 @@ const MongoConnection = function () {
       const client = await MongoClient.connect(MONGO_URL, {
         useNewUrlParser: true,
       });
-      db = client.db(DB_NAME);
+      db = client.db(dbConfig.dbName);
       return db;
     } catch (err) {
       console.log(err);
@@ -31,16 +30,5 @@ const MongoConnection = function () {
     getConnection,
   };
 };
-
-// async function init() {
-//   try {
-//     const client = await MongoClient.connect(mongoUrl, {
-//       useNewUrlParser: true,
-//     });
-//     return client.db(dbName);
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
 
 module.exports = MongoConnection();

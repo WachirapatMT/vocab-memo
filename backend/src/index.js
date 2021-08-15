@@ -6,9 +6,14 @@ const appConfig = require("config").get("appConfig");
 const middleware = require("./middlewares/authentication");
 const controller = require("./controllers");
 
+// Initialize express app
 const app = express();
+
+// Body parser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Enable CORS
 app.use(cors());
 
 app.use("/word-set", middleware.authenticateUser);
@@ -33,6 +38,9 @@ app.delete(
   "/word-set/:id/vocabulary/:vocabularyId",
   controller.WordSet.deleteVocabulary,
 );
+
+// Error handler
+require("./middlewares/errorHandler")(app);
 
 app.listen(appConfig.port, () => {
   console.log(`Server running on port ${appConfig.port}`);

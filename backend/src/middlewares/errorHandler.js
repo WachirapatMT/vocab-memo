@@ -1,10 +1,9 @@
-module.exports = (app) => {
+const { NotFoundError } = require("../utils/error");
 
+module.exports = (app) => {
   app.use((req, res, next) => {
-    const err = new Error('Endpoint Not Found')
-    err.status = 404
-    next(err)
-  })
+    next(new NotFoundError("Endpoint not found"));
+  });
 
   app.use((err, req, res, next) => {
     let statusCode = err.status || 500;

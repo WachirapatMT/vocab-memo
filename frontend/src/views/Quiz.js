@@ -35,6 +35,7 @@ const Quiz = () => {
   const [currentVocabularyIndex, setCurrentVocabularyIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const isReadOnly = useRef(false);
+  const isFinish = useRef(false);
 
   useEffect(async () => {
     const res = await axios.get(`${config.apiHost}/word-set/${id}`, {
@@ -76,9 +77,10 @@ const Quiz = () => {
     if (string === vocabularyList[currentVocabularyIndex].definition) {
       isReadOnly.current = true;
       if (currentVocabularyIndex + 1 >= vocabularyList.length) {
+        isFinish.current = true;
         setTimeout(() => {
           history.push(`/${id}`);
-        }, 1000);
+        }, 2000);
       } else {
         setTimeout(() => {
           isReadOnly.current = false;
@@ -94,7 +96,9 @@ const Quiz = () => {
       <ProgressBar
         className="mx-5"
         now={
-          vocabularyList
+          isFinish.current
+            ? 100
+            : vocabularyList
             ? (100 * currentVocabularyIndex) / vocabularyList.length
             : 0
         }

@@ -12,7 +12,7 @@ db.createUser({
 });
 
 // password: password
-// token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJpYXQiOjE2MjgzMjg4ODgsImV4cCI6MTYyODQxNTI4OH0.-VmBTwdjN87zs58WrKuZbAawCqKAstMkQFzZ8AAKuKk
+// token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJpYXQiOjE2MjkwMDQzOTAsImV4cCI6MTYyOTA5MDc5MH0.3Nu8IpuuFIGtwWXDbysoN9Qyaf9A2mO-bkqQA8La5m0
 db.user.insert({
   username: "user",
   salt: "$2a$10$BhRPNeULJGfYFFRRZ.wKnO",

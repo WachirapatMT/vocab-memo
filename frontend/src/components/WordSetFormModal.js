@@ -16,8 +16,8 @@ const WordSetFormModal = ({
     e.preventDefault();
     handleClose();
     handleSubmit(title, description);
-    setTitle(defaultTitle);
-    setDescription(defaultDescription);
+    setTitle(title);
+    setDescription(description);
   };
 
   const handleCancel = () => {

@@ -118,7 +118,7 @@ const Vocaburaly = () => {
             title="Flash card"
             bgColor="#20c997"
             vocaburalyCount={wordSet?.vocaburaly.length}
-            vocaburalyMin={2}
+            vocaburalyMin={config.flaseCardMinVocab}
             redirectTo={`/${id}/flash-card`}
           />
         </Col>
@@ -127,7 +127,7 @@ const Vocaburaly = () => {
             title="Quiz"
             bgColor="#0dcaf0"
             vocaburalyCount={wordSet?.vocaburaly.length}
-            vocaburalyMin={5}
+            vocaburalyMin={config.quizMinVocab}
             redirectTo={`/${id}/quiz`}
           />
         </Col>

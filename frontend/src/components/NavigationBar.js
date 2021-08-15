@@ -1,6 +1,12 @@
 import { Power } from "react-bootstrap-icons";
 import { useHistory } from "react-router";
-import { Navbar, Container, Nav } from "react-bootstrap";
+import {
+  Navbar,
+  Container,
+  Nav,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import styled from "styled-components";
 
@@ -57,9 +63,14 @@ const NavigationBar = () => {
               <Navbar.Text>{user.username}</Navbar.Text>
             </Nav>
             <Nav>
-              <StyledIcon onClick={handleLogout}>
-                <Power />
-              </StyledIcon>
+              <OverlayTrigger
+                placement={"bottom"}
+                overlay={<Tooltip>Logout</Tooltip>}
+              >
+                <StyledIcon onClick={handleLogout}>
+                  <Power />
+                </StyledIcon>
+              </OverlayTrigger>
             </Nav>
           </Navbar.Collapse>
         )}

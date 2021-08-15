@@ -2,10 +2,11 @@ version: "3"
 services:
   api:
     build: .
-    command: 'yarn dev --legacy-watch'
+    command: "yarn dev --legacy-watch"
     ports:
       - "3001:3001"
     container_name: api
+    restart: always
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
@@ -16,6 +17,7 @@ services:
     ports:
       - "27017:27017"
     container_name: mongodb
+    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password

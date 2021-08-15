@@ -52,7 +52,7 @@ const Home = () => {
 
   const handleLogin = async () => {
     try {
-      const { data } = await axios.post(`${config.apiHost}/login`, {
+      const { data } = await axios.post(`${config.apiHost}/user/login`, {
         username,
         password,
       });

@@ -16,28 +16,11 @@ app.use(express.json());
 // Enable CORS
 app.use(cors());
 
-app.use("/word-set", middleware.authenticateUser);
-
 // user endpoint
-app.post("/login", controller.User.login);
-app.post("/user", controller.User.createUser);
-app.get("/user", middleware.authenticateUser, controller.User.getUserInfo);
+app.use("/user", require("./routes/user"));
 
 // word-set endpoint
-app.get("/word-set", controller.WordSet.getWordSets);
-app.get("/word-set/:id", controller.WordSet.getWordSetById);
-app.post("/word-set", controller.WordSet.createWordSet);
-app.patch("/word-set/:id", controller.WordSet.updateWordSetById);
-app.delete("/word-set/:id", controller.WordSet.deleteWordSetById);
-app.post("/word-set/:id/vocabulary", controller.WordSet.addVocabulary);
-app.patch(
-  "/word-set/:id/vocabulary/:vocabularyId",
-  controller.WordSet.updateVocabulary,
-);
-app.delete(
-  "/word-set/:id/vocabulary/:vocabularyId",
-  controller.WordSet.deleteVocabulary,
-);
+app.use("/word-set", require("./routes/wordSet"));
 
 // Error handler
 require("./middlewares/errorHandler")(app);

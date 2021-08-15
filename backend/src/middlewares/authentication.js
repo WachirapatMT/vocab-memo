@@ -7,10 +7,11 @@ function authenticateUser(req, res, next) {
     token = token.split(" ")[1];
     const data = jwt.verify(token, authConfig.jwtSecret);
     req.user = data;
+    next();
   } catch (err) {
-    res.status(401).send("Unauthorized");
+    err.status = 401;
+    next(err);
   }
-  next();
 }
 
 module.exports = { authenticateUser };

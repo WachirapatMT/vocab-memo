@@ -1,113 +1,107 @@
-const ObjectId = require("mongodb").ObjectId;
-const dbConfig = require("config").get("dbConfig");
+const service = require("../services/wordSet.service");
+const { BadRequestError } = require("../utils/error");
 
-const MongoConnection = require("../datasources/mongodb");
-
-async function getWordSets(req, res) {
-  const { username } = req.user;
-  const db = await MongoConnection.getConnection();
-  const result = await db
-    .collection(dbConfig.wordsetCollection)
-    .find({ user: username })
-    .toArray();
-  res.send(result);
-}
-
-async function getWordSetById(req, res) {
-  const { username } = req.user;
-  const db = await MongoConnection.getConnection();
-  const { id } = req.params;
-  const result = await db
-    .collection(dbConfig.wordsetCollection)
-    .findOne({ _id: new ObjectId(id), user: username });
-  res.send(result);
-}
-
-async function createWordSet(req, res) {
-  const { username } = req.user;
-  const db = await MongoConnection.getConnection();
-  if (req.body) {
-    const { title, description } = req.body;
-    const result = await db
-      .collection(dbConfig.wordsetCollection)
-      .insertOne({ title, description, vocabulary: [], user: username });
+async function getWordSets(req, res, next) {
+  try {
+    const { username } = req.user;
+    const result = await service.getWordSets(username);
     res.send(result);
-  } else {
-    res.status(400).send("Bad request");
+  } catch (err) {
+    next(err);
   }
 }
 
-async function updateWordSetById(req, res) {
-  const db = await MongoConnection.getConnection();
-  const { id } = req.params;
-  if (req.body) {
-    const result = await db
-      .collection(dbConfig.wordsetCollection)
-      .updateOne({ _id: new ObjectId(id) }, { $set: req.body });
+async function getWordSetById(req, res, next) {
+  try {
+    const { username } = req.user;
+    const { id } = req.params;
+    const result = await service.getWordSetById(username, id);
     res.send(result);
-  } else {
-    res.status(400).send("Bad request");
+  } catch (err) {
+    next(err);
   }
 }
 
-async function deleteWordSetById(req, res) {
-  const { username } = req.user;
-  const db = await MongoConnection.getConnection();
-  const { id } = req.params;
-  const result = await db
-    .collection(dbConfig.wordsetCollection)
-    .deleteOne({ _id: new ObjectId(id), user: username });
-  res.send(result);
-}
-
-async function addVocabulary(req, res) {
-  const db = await MongoConnection.getConnection();
-  const { id } = req.params;
-
-  const wordSet = await db
-    .collection(dbConfig.wordsetCollection)
-    .findOne({ _id: new ObjectId(id) });
-  const length = wordSet.vocabulary.length;
-
-  const result = await db
-    .collection(dbConfig.wordsetCollection)
-    .updateOne(
-      { _id: new ObjectId(id) },
-      { $push: { vocabulary: { id: new ObjectId(), ...req.body } } },
-    );
-  res.send(result);
-}
-
-async function updateVocabulary(req, res) {
-  const db = await MongoConnection.getConnection();
-  const { id, vocabularyId } = req.params;
-  if (req.body) {
-    Object.keys(req.body).map((key) => {
-      req.body[`vocabulary.$.${key}`] = req.body[key];
-      delete req.body[key];
-    });
-    const result = await db
-      .collection(dbConfig.wordsetCollection)
-      .updateOne(
-        { _id: new ObjectId(id), "vocabulary.id": vocabularyId },
-        { $set: req.body },
-      );
-    res.send(result);
-  } else {
-    res.status(400).send("Bad request");
+async function createWordSet(req, res, next) {
+  try {
+    const { username } = req.user;
+    if (req.body) {
+      const { title, description } = req.body;
+      const result = await service.createWordSet(username, title, description);
+      res.send(result);
+    } else {
+      throw BadRequestError("Request body not found");
+    }
+  } catch (err) {
+    next(err);
   }
 }
 
-async function deleteVocabulary(req, res) {
-  const db = await MongoConnection.getConnection();
-  const { id, vocabularyId } = req.params;
-  const result = await db
-    .collection(dbConfig.wordsetCollection)
-    .updateOne(
-      { _id: new ObjectId(id) },
-      { $pull: { vocabulary: { id: vocabularyId } } },
-    );
-  res.send(result);
+async function updateWordSetById(req, res, next) {
+  try {
+    const { id } = req.params;
+    if (req.body) {
+      const result = await service.updateWordSetById(id, req.body);
+      res.send(result);
+    } else {
+      throw BadRequestError("Request body not found");
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function deleteWordSetById(req, res, next) {
+  try {
+    const { username } = req.user;
+    const { id } = req.params;
+    const result = await service.deleteWordSetById(username, id);
+    res.send(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function addVocabulary(req, res, next) {
+  try {
+    const { id } = req.params;
+    if (req.body) {
+      const result = await service.addVocabulary(id, req.body);
+      res.send(result);
+    } else {
+      throw BadRequestError("Request body not found");
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function updateVocabulary(req, res, next) {
+  try {
+    const { id, vocabularyId } = req.params;
+    if (req.body) {
+      Object.keys(req.body).map((key) => {
+        req.body[`vocabulary.$.${key}`] = req.body[key];
+        delete req.body[key];
+      });
+      const result = await service.updateVocabulary(id, vocabularyId, req.body);
+      res.send(result);
+    } else {
+      throw BadRequestError("Request body not found");
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function deleteVocabulary(req, res, next) {
+  try {
+    const { id, vocabularyId } = req.params;
+    const result = await service.deleteVocabulary(id, vocabularyId);
+    res.send(result);
+  } catch (err) {
+    next(err);
+  }
 }
 
 module.exports = {

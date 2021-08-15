@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "updev": "docker-compose up",
-    "downdev": "docker-compose down",
+    "up": "docker-compose up",
+    "down": "docker-compose down",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Wachirapat M.",

@@ -2,7 +2,7 @@ const { NotFoundError } = require("../utils/error");
 
 module.exports = (app) => {
   app.use((req, res, next) => {
-    next(new NotFoundError("Endpoint not found"));
+    next(NotFoundError("Endpoint not found"));
   });
 
   app.use((err, req, res, next) => {

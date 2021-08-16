@@ -13,7 +13,7 @@ const StyledDiv = styled.div`
   background-color: #202020;
   color: white;
   box-shadow: 0px 1px 15px #aaaaaa;
-  margin-top: 8rem;
+  margin-top: 6rem;
   width: 50vw;
   max-width: 400px;
   min-width: 300px;
@@ -39,6 +39,7 @@ const Home = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showWarningModal, setShowWarningModal] = useState(false);
 
   const handleFormSubmit = (e) => {
@@ -74,7 +75,7 @@ const Home = () => {
 
   const handleSignUp = async () => {
     setValidated(true);
-    if (password.length < 8) {
+    if (password.length < 8 || confirmPassword !== password) {
       return;
     }
     try {
@@ -96,6 +97,7 @@ const Home = () => {
       setValidated(false);
       setUsername("");
       setPassword("");
+      setConfirmPassword("");
     }
   };
 
@@ -140,6 +142,22 @@ const Home = () => {
                   Password must contain at least 8 characters
                 </Form.Control.Feedback>
               </Form.Group>
+              {!isLogin && (
+                <Form.Group className="mb-3">
+                  <Form.Label className="fw-bold"> Confirm password</Form.Label>
+                  <Form.Control
+                    required
+                    type="password"
+                    placeholder="Confirm password"
+                    isInvalid={validated && password !== confirmPassword}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Confirm password doesn't match the password
+                  </Form.Control.Feedback>
+                </Form.Group>
+              )}
               <div className="d-flex justify-content-center my-4">
                 <Button variant="primary" type="submit">
                   {isLogin ? "Log in" : "Sign up"}

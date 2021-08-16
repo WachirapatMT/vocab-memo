@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
+import { FORM_MODE } from "../constants";
+
 const WordSetFormModal = ({
   mode,
   show,
@@ -16,8 +18,13 @@ const WordSetFormModal = ({
     e.preventDefault();
     handleClose();
     handleSubmit(title, description);
-    setTitle(title);
-    setDescription(description);
+    if (mode == FORM_MODE.EDIT) {
+      setTitle(title);
+      setDescription(description);
+    } else {
+      setTitle("");
+      setDescription("");
+    }
   };
 
   const handleCancel = () => {

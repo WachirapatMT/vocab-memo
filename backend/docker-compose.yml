@@ -7,6 +7,18 @@ services:
       - "3001:3001"
     container_name: api
     restart: always
+    environment:
+      PORT: 3001
+      SALT_ROUND: 10
+      JWT_LIFETIME: 86400
+      JWT_SECRET: secret
+      DB_USERNAME: user
+      DB_PASSWORD: password
+      DB_HOST: mongodb
+      DB_PORT: 27017
+      DB_NAME: vocabmemo
+      USER_COLLECTION: user
+      WORDSET_COLLECTION: wordset
     volumes:
       # - ./:/usr/src/app
       - /usr/src/app/node_modules

@@ -31,9 +31,10 @@ This project requires `docker` and `docker-compose` to run the backend
    $ git clone https://github.com/WachirapatMT/vocab-memo.git
    $ cd vocab-memo
    ```
-2. From the root directory, go to frontend directory and build the react app. If you are using command prompt, you will have to manually copy the `build` folder from `./frontend` to `./backend`
+2. From the root directory, go to frontend directory, install dependencies and build the react app. If you are using command prompt, you will have to manually copy the `build` folder from `./frontend` to `./backend`
    ```
    $ cd frontend
+   $ yarn install
    $ yarn build:ui   // for terminal
    $ yarn build      // for command prompt
    ```

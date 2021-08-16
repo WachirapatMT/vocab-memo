@@ -12,11 +12,11 @@ db.createUser({
 });
 
 // password: password
-// token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJpYXQiOjE2MjkwMDQzOTAsImV4cCI6MTYyOTA5MDc5MH0.3Nu8IpuuFIGtwWXDbysoN9Qyaf9A2mO-bkqQA8La5m0
+// token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJpYXQiOjE2MjkwOTk3NzAsImV4cCI6MTYyOTE4NjE3MH0.NxyyMvu6IARQdrUljpGRJRShnlFigrCcseuZO5LyYfY
 db.user.insert({
   username: "user",
-  salt: "$2a$10$BhRPNeULJGfYFFRRZ.wKnO",
-  password: "$2a$10$BhRPNeULJGfYFFRRZ.wKnOlh8YBxflWVgpT/bUZB7TPNNN7.7afiG",
+  salt: "$2a$10$PQjUCNeBCbmDMSae7OORWO",
+  password: "$2a$10$PQjUCNeBCbmDMSae7OORWOeDM72tAL9pRcTNCZupXcJ1WhWY.zhc2",
 });
 
 db.wordset.insertMany([

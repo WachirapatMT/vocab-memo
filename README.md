@@ -22,7 +22,7 @@ Click [here](https://youtu.be/UTB-abBPxaE) or on the image to redirect to the de
 
 ## Prerequisites
 
-This project requires `docker` and `docker-compose` to run the backend
+This project requires `docker` and `docker-compose`
 
 ## Installation
 
@@ -31,23 +31,15 @@ This project requires `docker` and `docker-compose` to run the backend
    $ git clone https://github.com/WachirapatMT/vocab-memo.git
    $ cd vocab-memo
    ```
-2. From the root directory, go to frontend directory, install dependencies and build the react app. If you are using command prompt, you will have to manually copy the `build` folder from `./frontend` to `./backend`
-   ```
-   $ cd frontend
-   $ yarn install
-   $ yarn build:ui   // for terminal
-   $ yarn build      // for command prompt
-   ```
-3. From the root directory, go to backend directory and run the app
+2. At the project root directory, run `run.sh`
 
    ```
-   $ cd backend
-   $ yarn up
+   $ bash run.sh
    ```
 
-4. The web application is running at http://localhost:3001
+3. The web application is running at http://localhost:3001
 
-**Notes:** There is a default user (username: `user` & password: `password`) which can be used to log in to the web application without sign up.
+**Notes:** There is a default user (username: `user` & password: `password`) which can be used to login to the web application without signing up.
 
 # Inspirations
 
